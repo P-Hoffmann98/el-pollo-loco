@@ -11,6 +11,10 @@ class MovableObject extends DrawableObject {
   level_start_x = -150;
   level_end_x = 5000;
 
+  constructor(world) {
+    super();
+    this.world = world; // Initialize world reference
+  }
   applyGravity() {
     setInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {

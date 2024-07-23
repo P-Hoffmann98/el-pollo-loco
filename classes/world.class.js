@@ -1,5 +1,5 @@
 class World {
-  character = new Character();
+  character = new Character(this);
   level = level1;
   canvas;
   ctx;
@@ -68,14 +68,16 @@ class World {
       this.checkSalsaCollision();
       this.checkCoinCollision();
       this.checkThrowedObjects();
-      // this.checkForDeaths();
-      // this.checkThrowedObjectsCollision();
     }, 100);
   }
 
   checkThrowedObjects() {
     if (this.keyboard.D && this.character.salsaMeter > 0) {
-      let bottle = new ThrowableObject(this.character.x, this.character.y);
+      let bottle = new ThrowableObject(
+        this,
+        this.character.x,
+        this.character.y
+      );
       this.throwableObjects.push(bottle);
       this.character.salsaMeter -= 1; //Decrease salsa count when a bottle is thrown
       this.statusBar[2].setPercentage(this.character.salsaMeter * 20); //Update the salsa bar
@@ -87,7 +89,7 @@ class World {
       this.throwableObjects.forEach((bottle, bottleIndex) => {
         if (bottle.isColliding(enemy)) {
           console.log("bottle hit");
-          // Handle bottle collision logic here
+          enemy.isHit(100); // Assuming 100 is the damage value
           this.throwableObjects.splice(bottleIndex, 1); // Remove the bottle after handling the collision
         }
       });

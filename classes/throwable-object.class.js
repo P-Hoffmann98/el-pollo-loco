@@ -6,8 +6,9 @@ class ThrowableObject extends MovableObject {
     "img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png",
   ];
 
-  constructor(x, y) {
-    super().loadImage(this.IMAGES_THROWN[0]);
+  constructor(world, x, y) {
+    super(world); // Pass world reference to MovableObject
+    this.loadImage(this.IMAGES_THROWN[0]);
     this.loadImages(this.IMAGES_THROWN);
     this.x = x;
     this.y = y;
