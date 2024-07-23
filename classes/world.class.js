@@ -68,6 +68,7 @@ class World {
       this.checkSalsaCollision();
       this.checkCoinCollision();
       this.checkThrowedObjects();
+      this.checkThrowedObjectsCollision();
     }, 100);
   }
 
@@ -88,8 +89,8 @@ class World {
     this.level.enemies.forEach((enemy) => {
       this.throwableObjects.forEach((bottle, bottleIndex) => {
         if (bottle.isColliding(enemy)) {
-          console.log("bottle hit");
-          enemy.isHit(100); // Assuming 100 is the damage value
+          // enemy.isHit(20); // Assuming 100 is the damage value //spiel kackt ab wenn die hühnchen zu viel schaden kriegen
+          console.log("bottle hit", enemy.health);
           this.throwableObjects.splice(bottleIndex, 1); // Remove the bottle after handling the collision
         }
       });
@@ -113,7 +114,7 @@ class World {
         ) {
           this.character.isHit(enemy.dmg);
           this.character.lastHitTime = currentTime;
-          console.log("Pepe got hit", this.character.hp);
+          console.log("Pepe got hit", this.character.health);
           this.statusBar[0].setPercentage(this.character.health);
         } else {
           console.log("CD --> No Hit");
@@ -128,11 +129,11 @@ class World {
         this.character.collectsSalsa(1);
         //this.character.collects(bottle.salsaMeter);
         this.level.salsabottles.splice(index, 1); // Remove collected bottle from game
-        console.log(
-          "Collision with Bottle",
-          "Pepe's SalsaMeter:",
-          this.character.salsaMeter
-        );
+        // console.log(
+        //   "Collision with Bottle",
+        //   "Pepe's SalsaMeter:",
+        //   this.character.salsaMeter
+        // );
         this.statusBar[2].setPercentage(this.character.salsaMeter * 20); // Fill up that salsa juice
         //this.character.salsa_count++;
         //console.log(this.character.salsa_count);
@@ -145,7 +146,7 @@ class World {
       if (this.character.isColliding(coin)) {
         this.character.collectsCoins(1);
         this.level.coins.splice(index, 1); // Remove collected Coin from game
-        console.log("coin");
+        // console.log("coin");
         this.statusBar[1].setPercentage(this.character.coin_count * 20);
       }
     });

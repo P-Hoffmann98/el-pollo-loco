@@ -139,19 +139,19 @@ class Character extends MovableObject {
     this.intervalIds = [];
   }
 
-  gameOverScreen() {
-    let randomNum = getRandomInt(1, 4);
-    world.ctx.clearRect(0, 0, world.canvas.width, world.canvas.height);
-    this.clearAllIntervals(); // Clear all intervals
-    console.log("Game Over");
+  // gameOverScreen() {
+  //   let randomNum = getRandomInt(1, 4);
+  //   world.ctx.clearRect(0, 0, world.canvas.width, world.canvas.height);
+  //   this.clearAllIntervals(); // Clear all intervals
+  //   console.log("Game Over");
 
-    // Display the end screen
-    let img = new Image();
-    img.src = `img/9_intro_outro_screens/game_over/${randomNum}.png`;
+  //   // Display the end screen
+  //   let img = new Image();
+  //   img.src = `img/9_intro_outro_screens/game_over/${randomNum}.png`;
 
-    // When the image is loaded, draw it on the canvas
-    img.onload = () => {
-      world.ctx.drawImage(img, 0, 0, world.canvas.width, world.canvas.height);
-    };
-  }
+  //   // When the image is loaded, draw it on the canvas
+  //   img.onload = () => {
+  //     world.ctx.drawImage(img, 0, 0, world.canvas.width, world.canvas.height);
+  //   };
+  // }
 }

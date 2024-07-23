@@ -1,6 +1,7 @@
-class StartScreen extends MovableObject {
+class GameoverScreen extends MovableObject {
   constructor() {
-    super().loadImage("img/9_intro_outro_screens/start/startscreen_1.png");
+    let randomNum = getRandomInt(1, 4);
+    super().loadImage(`img/9_intro_outro_screens/game_over/${randomNum}.png`);
     this.x = 0;
     this.y = 0;
     this.height = 480;
