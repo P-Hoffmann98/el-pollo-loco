@@ -30,14 +30,9 @@ class MovableObject extends DrawableObject {
   }
 
   isColliding(mo) {
-    // Adjust the height if 'this' is the character object
-    let heightAdjustment = 0;
-    if (this === this.world.character[0]) {
-      heightAdjustment = 0;
-    }
     return (
       this.x + this.width > mo.x &&
-      this.y + this.height + heightAdjustment > mo.y &&
+      this.y + this.height > mo.y &&
       this.x < mo.x + mo.width &&
       this.y < mo.y + mo.height
     );

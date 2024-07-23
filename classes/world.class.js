@@ -73,23 +73,6 @@ class World {
     }, 100);
   }
 
-  // checkForDeaths() {
-  //   // Check character death
-  //   if (this.character.isDead()) {
-  //     console.log("Character has died");
-  //     // Handle character death (e.g., end game, respawn, etc.)
-  //   }
-
-  //   // Check enemies death
-  //   this.level.enemies.forEach((enemy, index) => {
-  //     if (enemy.isDead()) {
-  //       console.log(`Enemy at index ${index} has died`);
-  //       // Handle enemy death (e.g., remove from game, play death animation, etc.)
-  //       this.level.enemies.splice(index, 1); // Remove dead enemy from the game
-  //     }
-  //   });
-  // }
-
   checkThrowedObjects() {
     if (this.keyboard.D && this.character.salsaMeter > 0) {
       let bottle = new ThrowableObject(this.character.x, this.character.y);
@@ -100,17 +83,12 @@ class World {
   }
 
   checkThrowedObjectsCollision() {
-    let currentTime = Date.now(); // create Date
     this.level.enemies.forEach((enemy) => {
       this.throwableObjects.forEach((bottle, bottleIndex) => {
         if (bottle.isColliding(enemy)) {
-          if (currentTime - enemy.lastHitTime > enemy.hitCooldown) {
-            enemy.isHit(100);
-            enemy.lastHitTime = currentTime;
-            console.log("Enemy hit by bottle", enemy);
-          }
-          // Remove the bottle after handling the collision
-          this.throwableObjects.splice(bottleIndex, 1);
+          console.log("bottle hit");
+          // Handle bottle collision logic here
+          this.throwableObjects.splice(bottleIndex, 1); // Remove the bottle after handling the collision
         }
       });
     });
