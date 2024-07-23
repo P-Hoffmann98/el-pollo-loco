@@ -1,5 +1,5 @@
 class World {
-  character = [new Character()];
+  character = new Character();
   level = level1;
   canvas;
   ctx;
@@ -59,7 +59,7 @@ class World {
   }
 
   setWorld() {
-    this.character[0].world = this;
+    this.character.world = this;
   }
 
   run() {
@@ -75,7 +75,7 @@ class World {
 
   // checkForDeaths() {
   //   // Check character death
-  //   if (this.character[0].isDead()) {
+  //   if (this.character.isDead()) {
   //     console.log("Character has died");
   //     // Handle character death (e.g., end game, respawn, etc.)
   //   }
@@ -91,53 +91,12 @@ class World {
   // }
 
   checkThrowedObjects() {
-    if (this.keyboard.D && this.character[0].salsaMeter > 0) {
-      let bottle = new ThrowableObject(
-        this.character[0].x,
-        this.character[0].y
-      );
+    if (this.keyboard.D && this.character.salsaMeter > 0) {
+      let bottle = new ThrowableObject(this.character.x, this.character.y);
       this.throwableObjects.push(bottle);
-      this.character[0].salsaMeter -= 1; //Decrease salsa count when a bottle is thrown
-      this.statusBar[2].setPercentage(this.character[0].salsaMeter * 20); //Update the salsa bar
+      this.character.salsaMeter -= 1; //Decrease salsa count when a bottle is thrown
+      this.statusBar[2].setPercentage(this.character.salsaMeter * 20); //Update the salsa bar
     }
-  }
-
-  checkEnemyCollision() {
-    let currentTime = Date.now();
-    this.level.enemies.forEach((enemy, enemyIndex) => {
-      if (this.character[0].isColliding(enemy)) {
-        // Check if character is jumping on top of the enemy
-        if (this.character[0].y + this.character[0].height - 5 < enemy.y) {
-          enemy.isHit(10);
-          this.character[0].speedY = 15; // Make the character bounce off the enemy
-          console.log("Enemy hit by jump", enemy);
-
-          // Remove the enemy if it is dead
-          if (enemy.isDead()) {
-            this.level.enemies.splice(enemyIndex, 1);
-            console.log("Enemy has died", enemy);
-          }
-        } else {
-          // Character is hit by enemy from the side
-          if (
-            currentTime - this.character[0].lastHitTime >
-            this.character[0].hitCooldown
-          ) {
-            this.character[0].isHit(enemy.dmg);
-            this.character[0].lastHitTime = currentTime;
-            console.log(
-              "Collision with Enemy",
-              enemy,
-              "Character's health:",
-              this.character[0].health
-            );
-            this.statusBar[0].setPercentage(this.character[0].health);
-          } else {
-            console.log("CD --> No Hit");
-          }
-        }
-      }
-    });
   }
 
   checkThrowedObjectsCollision() {
@@ -157,18 +116,44 @@ class World {
     });
   }
 
+  checkEnemyCollision() {
+    let currentTime = Date.now();
+    this.level.enemies.forEach((enemy, enemyIndex) => {
+      if (
+        this.character.isColliding(enemy) &&
+        this.character.isAboveGround() &&
+        this.character.speedY < 0
+      ) {
+        console.log("Trigger Collision");
+        this.level.enemies.splice(enemyIndex, 1);
+      } else if (this.character.isColliding(enemy)) {
+        if (
+          currentTime - this.character.lastHitTime >
+          this.character.hitCooldown
+        ) {
+          this.character.isHit(enemy.dmg);
+          this.character.lastHitTime = currentTime;
+          console.log("Pepe got hit", this.character.hp);
+          this.statusBar[0].setPercentage(this.character.health);
+        } else {
+          console.log("CD --> No Hit");
+        }
+      }
+    });
+  }
+
   checkSalsaCollision() {
     this.level.salsabottles.forEach((bottle, index) => {
-      if (this.character[0].isColliding(bottle)) {
-        this.character[0].collectsSalsa(1);
-        //this.character[0].collects(bottle.salsaMeter);
+      if (this.character.isColliding(bottle)) {
+        this.character.collectsSalsa(1);
+        //this.character.collects(bottle.salsaMeter);
         this.level.salsabottles.splice(index, 1); // Remove collected bottle from game
         console.log(
           "Collision with Bottle",
           "Pepe's SalsaMeter:",
-          this.character[0].salsaMeter
+          this.character.salsaMeter
         );
-        this.statusBar[2].setPercentage(this.character[0].salsaMeter * 20); // Fill up that salsa juice
+        this.statusBar[2].setPercentage(this.character.salsaMeter * 20); // Fill up that salsa juice
         //this.character.salsa_count++;
         //console.log(this.character.salsa_count);
       }
@@ -177,11 +162,11 @@ class World {
 
   checkCoinCollision() {
     this.level.coins.forEach((coin, index) => {
-      if (this.character[0].isColliding(coin)) {
-        this.character[0].collectsCoins(1);
+      if (this.character.isColliding(coin)) {
+        this.character.collectsCoins(1);
         this.level.coins.splice(index, 1); // Remove collected Coin from game
         console.log("coin");
-        this.statusBar[1].setPercentage(this.character[0].coin_count * 20);
+        this.statusBar[1].setPercentage(this.character.coin_count * 20);
       }
     });
   }
@@ -199,7 +184,7 @@ class World {
     this.addObjects(this.level.enemies);
     this.addObjects(this.level.salsabottles);
     this.addObjects(this.level.coins);
-    this.addObjects(this.character);
+    this.addObjects([this.character]); // this needs to be an array
     this.addObjects(this.throwableObjects);
 
     // fixated Statusbars

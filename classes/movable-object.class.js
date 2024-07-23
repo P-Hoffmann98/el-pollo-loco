@@ -5,7 +5,7 @@ class MovableObject extends DrawableObject {
 
   health;
   dmg;
-  lasthit;
+  lastHitTime;
   hitCooldown = 500; // CD period in MS 0.5
 
   level_start_x = -150;
