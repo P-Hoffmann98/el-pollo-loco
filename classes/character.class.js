@@ -52,7 +52,7 @@ class Character extends MovableObject {
   ];
 
   world;
-  gameOverScreenShown = false;
+  // gameOverScreenShown = false;
   intervalIds = [];
 
   constructor() {
@@ -117,10 +117,10 @@ class Character extends MovableObject {
     let animationIntervalId = setInterval(() => {
       if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
-        if (!this.gameOverScreenShown) {
-          this.gameOverScreen(); // Call the method correctly
-          this.gameOverScreenShown = true; // Set flag to true
-        }
+        // if (!this.gameOverScreenShown) {
+        //   this.gameOverScreen(); // Call the method correctly
+        //   this.gameOverScreenShown = true; // Set flag to true
+        // }
       } else if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
       } else if (this.isAboveGround()) {
@@ -138,20 +138,4 @@ class Character extends MovableObject {
     this.intervalIds.forEach((id) => clearInterval(id));
     this.intervalIds = [];
   }
-
-  // gameOverScreen() {
-  //   let randomNum = getRandomInt(1, 4);
-  //   world.ctx.clearRect(0, 0, world.canvas.width, world.canvas.height);
-  //   this.clearAllIntervals(); // Clear all intervals
-  //   console.log("Game Over");
-
-  //   // Display the end screen
-  //   let img = new Image();
-  //   img.src = `img/9_intro_outro_screens/game_over/${randomNum}.png`;
-
-  //   // When the image is loaded, draw it on the canvas
-  //   img.onload = () => {
-  //     world.ctx.drawImage(img, 0, 0, world.canvas.width, world.canvas.height);
-  //   };
-  // }
 }

@@ -20,28 +20,31 @@ class Chicken extends MovableObject {
   IMAGES_DEAD = ["img/3_enemies_chicken/chicken_normal/2_dead/dead.png"];
 
   otherDirection = false;
-  world;
+  deathHandled = false;
 
-  constructor() {
-    super().loadImage(this.IMAGES_WALKING[0]);
+  constructor(world) {
+    super(world); // Pass the world reference to the MovableObject constructor
+    this.world = world; // Ensure the world reference is assigned to this.world
+    this.loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
+    this.loadImages(this.IMAGES_DEAD);
     this.animate();
   }
 
   animate() {
-    // Use a flag to track if animation is already playing
-    let deathAnimated = false;
-
     setInterval(() => {
       if (this.isDead()) {
-        if (!deathAnimated) {
+        if (!this.deathHandled) {
           this.playAnimation(this.IMAGES_DEAD);
-          deathAnimated = true; // Mark animation as playing
-        }
-        // Optionally, handle stopping movement or other logic here
-      } else {
-        deathAnimated = false; // Reset animation flag
+          this.deathHandled = true; // Mark animation as handled
 
+          // Remove chicken after 0.5 seconds
+          setTimeout(() => {
+            console.log("chicken dead");
+            this.removeEntity();
+          }, 500);
+        }
+      } else {
         // Update direction based on boundaries
         if (this.x >= this.level_end_x) {
           this.otherDirection = false; // Change direction at end of level
@@ -60,5 +63,12 @@ class Chicken extends MovableObject {
         this.playAnimation(this.IMAGES_WALKING);
       }
     }, 1000 / 30); // 30 frames per second
+  }
+
+  removeEntity() {
+    let index = this.world.level.enemies.indexOf(this);
+    if (index > -1) {
+      this.world.level.enemies.splice(index, 1);
+    }
   }
 }

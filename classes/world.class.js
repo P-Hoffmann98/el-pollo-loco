@@ -54,8 +54,8 @@ class World {
     this.draw();
     this.setWorld();
     this.run();
-    this.playThemeSound();
-    this.playCluckingSound();
+    // this.playThemeSound();
+    // this.playCluckingSound();
   }
 
   setWorld() {
@@ -69,19 +69,33 @@ class World {
       this.checkCoinCollision();
       this.checkThrowedObjects();
       this.checkThrowedObjectsCollision();
+      this.checkCharacterDead();
     }, 100);
+  }
+
+  checkCharacterDead() {
+    if (this.character && this.character.isDead()) {
+      console.log("Character has died");
+      this.handleGameOver();
+    }
+  }
+
+  handleGameOver() {
+    console.log("Game Over");
+    // for (let i = 1; i < 9999; i++) window.clearInterval(i);
   }
 
   checkThrowedObjects() {
     if (this.keyboard.D && this.character.salsaMeter > 0) {
       let bottle = new ThrowableObject(
         this,
+        this.character,
         this.character.x,
         this.character.y
       );
       this.throwableObjects.push(bottle);
-      this.character.salsaMeter -= 1; //Decrease salsa count when a bottle is thrown
-      this.statusBar[2].setPercentage(this.character.salsaMeter * 20); //Update the salsa bar
+      this.character.salsaMeter -= 1; // Decrease salsa count when a bottle is thrown
+      this.statusBar[2].setPercentage(this.character.salsaMeter * 20); // Update the salsa bar
     }
   }
 
@@ -89,8 +103,8 @@ class World {
     this.level.enemies.forEach((enemy) => {
       this.throwableObjects.forEach((bottle, bottleIndex) => {
         if (bottle.isColliding(enemy)) {
-          // enemy.isHit(20); // Assuming 100 is the damage value //spiel kackt ab wenn die hühnchen zu viel schaden kriegen
-          console.log("bottle hit", enemy.health);
+          console.log("bottle hit");
+          enemy.isHit(100);
           this.throwableObjects.splice(bottleIndex, 1); // Remove the bottle after handling the collision
         }
       });
@@ -99,14 +113,17 @@ class World {
 
   checkEnemyCollision() {
     let currentTime = Date.now();
-    this.level.enemies.forEach((enemy, enemyIndex) => {
+
+    this.level.enemies.forEach((enemy) => {
       if (
         this.character.isColliding(enemy) &&
         this.character.isAboveGround() &&
         this.character.speedY < 0
       ) {
+        this.character.lastHitTime = currentTime;
+        this.character.jump();
+        enemy.isHit(10);
         console.log("Trigger Collision");
-        this.level.enemies.splice(enemyIndex, 1);
       } else if (this.character.isColliding(enemy)) {
         if (
           currentTime - this.character.lastHitTime >

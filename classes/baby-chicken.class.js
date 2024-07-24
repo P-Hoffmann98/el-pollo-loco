@@ -23,23 +23,26 @@ class Babychicken extends MovableObject {
   constructor() {
     super().loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
+    this.loadImages(this.IMAGES_DEAD);
     this.animate();
   }
 
   animate() {
-    // Use a flag to track if animation is already playing
-    let deathAnimated = false;
-
     setInterval(() => {
       if (this.isDead()) {
-        if (!deathAnimated) {
+        if (!this.deathHandled) {
           this.playAnimation(this.IMAGES_DEAD);
-          deathAnimated = true; // Mark animation as playing
-        }
-        // Optionally, handle stopping movement or other logic here
-      } else {
-        deathAnimated = false; // Reset animation flag
+          this.deathHandled = true; // Mark animation as handled
 
+          // Remove chicken after 0.5 seconds
+          setTimeout(() => {
+            let index = this.world.level.enemies.indexOf(this);
+            if (index > -1) {
+              this.world.level.enemies.splice(index, 1);
+            }
+          }, 500);
+        }
+      } else {
         // Update direction based on boundaries
         if (this.x >= this.level_end_x) {
           this.otherDirection = false; // Change direction at end of level

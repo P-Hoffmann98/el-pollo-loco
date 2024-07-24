@@ -2,6 +2,10 @@ class DrawableObject {
   img;
   imageCache = {};
   currentImage = 0;
+  x = 120;
+  y = 280;
+  height = 150;
+  width = 100;
 
   loadImage(path) {
     this.img = new Image();
@@ -17,7 +21,9 @@ class DrawableObject {
   }
 
   draw(ctx) {
-    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    if (this.img && this.img.complete) {
+      ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    }
   }
 
   drawFrame(ctx) {
