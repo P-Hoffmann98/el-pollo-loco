@@ -33,8 +33,38 @@
   <body onload="showStartScreen()">
     <h1>¡el pollo loco!</h1>
     <button id="startButton" onclick="startGame()">¡Vamos!</button>
-    <canvas id="canvas" width="720px" height="480px"> </canvas>
-    <div><h1>how to play</h1></div>
+    <canvas id="canvas" width="720px" height="480px"></canvas>
+    <div class="how-to-play">
+      <h2>How to Play</h2>
+      <div class="controls">
+        <div class="arrow-keys">
+          <h3>MOVE</h3>
+          <div class="up-arrow">
+            <img
+              id="arrow-up"
+              class="how-to-play-arrows"
+              src="img/other_imgs/arrow.png"
+            />
+          </div>
+          <div class="left-right-arrows">
+            <img
+              id="arrow-left"
+              class="how-to-play-arrows"
+              src="img/other_imgs/arrow.png"
+            />
+            <img
+              id="arrow-right"
+              class="how-to-play-arrows"
+              src="img/other_imgs/arrow.png"
+            />
+          </div>
+        </div>
+        <div class="throw-key">
+          <h3>THROW SPICY SALSA</h3>
+          <img id="D_Key" src="img/other_imgs/D_Key.png" />
+        </div>
+      </div>
+    </div>
     <div class="buttons">
       <button onclick="window.location.reload();">Restart</button>
       <button id="music_toggle">Turn Music Off</button>

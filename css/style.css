@@ -1,3 +1,9 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
 @font-face {
   font-family: "zabars";
   src: url("../fonts/zabars.ttf") format("truetype");
@@ -16,20 +22,40 @@ body {
 }
 
 h1 {
-  font-size: 64px;
+  font-size: 80px;
   letter-spacing: 3px;
-  text-shadow: 2px 2px 2px rgb(0, 0, 0, 0.2);
+  text-shadow: 5px 5px 5px rgb(0, 0, 0, 0.5);
+  margin-bottom: 80px;
+}
+
+h2 {
+  font-size: 64px;
+  letter-spacing: 2px;
+  text-shadow: 5px 5px 5px rgb(0, 0, 0, 0.5);
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+h3 {
+  font-size: 48px;
+  letter-spacing: 1px;
+  text-shadow: 5px 5px 5px rgb(0, 0, 0, 0.5);
 }
 
 canvas {
   background-color: black;
   display: block;
-  margin: auto;
+  margin: 20px;
 }
+
 .buttons {
   display: flex;
-  gap: 20px;
+  position: absolute;
+  bottom: 1px;
+  gap: 24px;
 }
+
 button {
   font-size: 40px;
   font-family: "zabars", Arial, Helvetica, sans-serif;
@@ -37,9 +63,72 @@ button {
   cursor: pointer;
 }
 
+.how-to-play {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.arrow-keys {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 50px;
+}
+
+.up-arrow {
+  margin-bottom: 10px;
+}
+
+.left-right-arrows {
+  display: flex;
+  justify-content: space-between;
+  width: 150px;
+}
+
+.how-to-play-arrows {
+  height: 50px;
+  width: 50px;
+}
+
+#arrow-up {
+  transform: rotate(180deg);
+}
+
+#arrow-left {
+  transform: rotate(90deg);
+}
+
+#arrow-right {
+  transform: rotate(-90deg);
+}
+
+.throw-key {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+}
+
+#D_Key {
+  transform: rotate(38deg);
+  height: 150px;
+  width: 150px;
+}
+
 @media only screen and (max-width: 720px) {
   canvas {
     width: 100%;
+  }
+  .buttons {
+    gap: 5px;
   }
 }
 
