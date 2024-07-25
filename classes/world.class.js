@@ -113,7 +113,6 @@ class World {
 
   checkEnemyCollision() {
     let currentTime = Date.now();
-
     this.level.enemies.forEach((enemy) => {
       if (
         this.character.isColliding(enemy) &&

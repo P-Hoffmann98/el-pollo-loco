@@ -10,11 +10,13 @@ class MovableObject extends DrawableObject {
 
   level_start_x = -150;
   level_end_x = 5000;
+  world;
 
-  constructor(world) {
-    super();
-    this.world = world; // Initialize world reference
+  removeEntity(entity) {
+    let index = world.level.enemies.indexOf(entity);
+    world.level.enemies.splice(index, 1);
   }
+
   applyGravity() {
     setInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {

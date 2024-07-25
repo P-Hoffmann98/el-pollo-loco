@@ -36,10 +36,8 @@ class Babychicken extends MovableObject {
 
           // Remove chicken after 0.5 seconds
           setTimeout(() => {
-            let index = this.world.level.enemies.indexOf(this);
-            if (index > -1) {
-              this.world.level.enemies.splice(index, 1);
-            }
+            console.log("chicken dead");
+            this.removeEntity(this);
           }, 500);
         }
       } else {
@@ -60,6 +58,6 @@ class Babychicken extends MovableObject {
         // Play walking animation
         this.playAnimation(this.IMAGES_WALKING);
       }
-    }, 1000 / 30); // 30 frames per second
+    }, 1000 / 24); // 30 frames per second
   }
 }

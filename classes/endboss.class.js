@@ -12,6 +12,9 @@ class Endboss extends MovableObject {
     "img/4_enemie_boss_chicken/1_walk/G2.png",
     "img/4_enemie_boss_chicken/1_walk/G3.png",
     "img/4_enemie_boss_chicken/1_walk/G4.png",
+  ];
+
+  IMAGES_ALERT = [
     "img/4_enemie_boss_chicken/2_alert/G5.png",
     "img/4_enemie_boss_chicken/2_alert/G6.png",
     "img/4_enemie_boss_chicken/2_alert/G7.png",
@@ -22,14 +25,63 @@ class Endboss extends MovableObject {
     "img/4_enemie_boss_chicken/2_alert/G12.png",
   ];
 
-  constructor() {
-    super().loadImage(this.IMAGES_WALKING[0]);
+  IMAGES_ATTACK = [
+    "img/4_enemie_boss_chicken/3_attack/G13.png",
+    "img/4_enemie_boss_chicken/3_attack/G14.png",
+    "img/4_enemie_boss_chicken/3_attack/G15.png",
+    "img/4_enemie_boss_chicken/3_attack/G16.png",
+    "img/4_enemie_boss_chicken/3_attack/G17.png",
+    "img/4_enemie_boss_chicken/3_attack/G18.png",
+    "img/4_enemie_boss_chicken/3_attack/G19.png",
+    "img/4_enemie_boss_chicken/3_attack/G20.png",
+  ];
+
+  IMAGES_HURT = [
+    "img/4_enemie_boss_chicken/4_hurt/G21.png",
+    "img/4_enemie_boss_chicken/4_hurt/G22.png",
+    "img/4_enemie_boss_chicken/4_hurt/G23.png",
+  ];
+  IMAGES_DEAD = [
+    "img/4_enemie_boss_chicken/5_dead/G24.png",
+    "img/4_enemie_boss_chicken/5_dead/G25.png",
+    "img/4_enemie_boss_chicken/5_dead/G26.png",
+  ];
+
+  deathHandled = 0;
+  world;
+
+  constructor(world) {
+    super(world);
+    this.loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
+    this.loadImages(this.IMAGES_ALERT);
+    this.loadImages(this.IMAGES_ATTACK);
+    this.loadImages(this.IMAGES_HURT);
+    this.loadImages(this.IMAGES_DEAD);
     this.animate();
   }
+
   animate() {
     setInterval(() => {
-      this.playAnimation(this.IMAGES_WALKING);
-    }, 200);
+      if (this.isDead()) {
+        if (this.deathHandled < 4) {
+          this.playAnimation(this.IMAGES_DEAD);
+          this.deathHandled++; // Count the animated imgs
+        } else {
+          setTimeout(() => { //Remove Boss after 0.5s of Death Animation
+            console.log("chicken dead");
+            this.removeEntity(this);
+          }, 500);
+        }
+      } else if (this.isHurt()) {
+        this.playAnimation(this.IMAGES_HURT);
+      }
+      // else if (this.world.character.x > 4000) { // get alerted when character comes too close
+      //   this.playAnimation(this.IMAGES_ALERT);
+      // }
+      //else if (this.world.character.x > 4300) { // attack if character gets even closer
+      //   this.playAnimation(this.IMAGES_ATTACK);
+      // }
+    }, 1000 / 10);
   }
 }

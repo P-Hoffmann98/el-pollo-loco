@@ -21,10 +21,10 @@ class Chicken extends MovableObject {
 
   otherDirection = false;
   deathHandled = false;
+  world;
 
-  constructor(world) {
-    super(world); // Pass the world reference to the MovableObject constructor
-    this.world = world; // Ensure the world reference is assigned to this.world
+  constructor() {
+    super();
     this.loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_DEAD);
@@ -41,7 +41,7 @@ class Chicken extends MovableObject {
           // Remove chicken after 0.5 seconds
           setTimeout(() => {
             console.log("chicken dead");
-            this.removeEntity();
+            this.removeEntity(this);
           }, 500);
         }
       } else {
@@ -62,13 +62,6 @@ class Chicken extends MovableObject {
         // Play walking animation
         this.playAnimation(this.IMAGES_WALKING);
       }
-    }, 1000 / 30); // 30 frames per second
-  }
-
-  removeEntity() {
-    let index = this.world.level.enemies.indexOf(this);
-    if (index > -1) {
-      this.world.level.enemies.splice(index, 1);
-    }
+    }, 1000 / 24); // 30 frames per second
   }
 }
