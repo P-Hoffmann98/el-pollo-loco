@@ -7,6 +7,8 @@ class Endboss extends MovableObject {
   health = 500;
   dmg = 100;
 
+  speed = 1;
+
   IMAGES_WALKING = [
     "img/4_enemie_boss_chicken/1_walk/G1.png",
     "img/4_enemie_boss_chicken/1_walk/G2.png",
@@ -47,11 +49,11 @@ class Endboss extends MovableObject {
     "img/4_enemie_boss_chicken/5_dead/G26.png",
   ];
 
+  otherDirection = false;
   deathHandled = 0;
-  world;
 
-  constructor(world) {
-    super(world);
+  constructor() {
+    super();
     this.loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_ALERT);
@@ -62,26 +64,40 @@ class Endboss extends MovableObject {
   }
 
   animate() {
-    setInterval(() => {
-      if (this.isDead()) {
-        if (this.deathHandled < 4) {
-          this.playAnimation(this.IMAGES_DEAD);
-          this.deathHandled++; // Count the animated imgs
-        } else {
-          setTimeout(() => { //Remove Boss after 0.5s of Death Animation
-            console.log("chicken dead");
-            this.removeEntity(this);
-          }, 500);
+    this.setStoppableInterval(
+      () => {
+        if (this.isDead()) {
+          if (this.deathHandled < 4) {
+            this.playAnimation(this.IMAGES_DEAD);
+            this.deathHandled++; // Count the animated imgs
+          } else {
+            setTimeout(() => {
+              //Remove Boss after 0.5s of Death Animation
+              console.log("chicken dead");
+              this.removeEntity(this);
+            }, 500);
+          }
+        } else if (this.isHurt()) {
+          this.playAnimation(this.IMAGES_HURT);
         }
-      } else if (this.isHurt()) {
-        this.playAnimation(this.IMAGES_HURT);
-      }
-      // else if (this.world.character.x > 4000) { // get alerted when character comes too close
-      //   this.playAnimation(this.IMAGES_ALERT);
-      // }
-      //else if (this.world.character.x > 4300) { // attack if character gets even closer
-      //   this.playAnimation(this.IMAGES_ATTACK);
-      // }
-    }, 1000 / 10);
+        // else if (this.world.character.x > 4000) { // get alerted when character comes too close
+        //   this.playAnimation(this.IMAGES_ALERT);
+        // }
+        //else if (this.world.character.x > 4300) { // attack if character gets even closer
+        //   this.playAnimation(this.IMAGES_ATTACK);
+        // }
+        // Move the chicken based on direction
+        // if (this.otherDirection) {
+        //   this.moveRight();
+        // } else {
+        //   this.moveLeft();
+        // }
+
+        // // Play walking animation
+        // this.playAnimation(this.IMAGES_WALKING);
+      },
+      "BossInverval",
+      1000 / 10
+    );
   }
 }

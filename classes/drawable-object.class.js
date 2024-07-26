@@ -6,7 +6,6 @@ class DrawableObject {
   y = 280;
   height = 150;
   width = 100;
-  world;
 
   loadImage(path) {
     this.img = new Image();
@@ -38,9 +37,9 @@ class DrawableObject {
       this instanceof Endboss
     ) {
       ctx.beginPath();
-      // ctx.lineWidth = "5";
-      // ctx.strokeStyle = "blue";
-      // ctx.rect(this.x, this.y, this.width, this.height);
+      ctx.lineWidth = "5";
+      ctx.strokeStyle = "blue";
+      ctx.rect(this.x, this.y, this.width, this.height);
       ctx.stroke();
     }
   }

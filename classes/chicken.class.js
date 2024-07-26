@@ -21,18 +21,16 @@ class Chicken extends MovableObject {
 
   otherDirection = false;
   deathHandled = false;
-  world;
 
   constructor() {
-    super();
-    this.loadImage(this.IMAGES_WALKING[0]);
+    super().loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_DEAD);
     this.animate();
   }
 
   animate() {
-    setInterval(() => {
+    this.setStoppableInterval(() => {
       if (this.isDead()) {
         if (!this.deathHandled) {
           this.playAnimation(this.IMAGES_DEAD);
@@ -62,6 +60,6 @@ class Chicken extends MovableObject {
         // Play walking animation
         this.playAnimation(this.IMAGES_WALKING);
       }
-    }, 1000 / 24); // 30 frames per second
+    },"ChickenInterval", 1000 / 24); // 30 frames per second
   }
 }

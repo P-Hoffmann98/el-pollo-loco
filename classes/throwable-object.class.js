@@ -21,6 +21,7 @@ class ThrowableObject extends MovableObject {
   throw() {
     this.speedY = 10;
     this.applyGravity();
+    // let throwInterval1 =
     setInterval(() => {
       if (!this.character.otherDirection) {
         this.x += 15;
@@ -28,8 +29,12 @@ class ThrowableObject extends MovableObject {
         this.x -= 15;
       }
     }, 25);
+    // this.Intervals.push({ name: "throwInterval1", id: throwInterval1 });
+
+    // let throwInterval2 =
     setInterval(() => {
       this.playAnimation(this.IMAGES_THROWN);
     }, 1000 / 30);
+    // this.Intervals.push({ name: "throwInterval2", id: throwInterval2 });
   }
 }

@@ -18,10 +18,10 @@ class Babychicken extends MovableObject {
   IMAGES_DEAD = ["img/3_enemies_chicken/chicken_small/2_dead/dead.png"];
 
   otherDirection = false;
-  world;
 
-  constructor() {
-    super().loadImage(this.IMAGES_WALKING[0]);
+  constructor(world) {
+    super(world);
+    this.loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_DEAD);
     this.animate();
@@ -59,5 +59,9 @@ class Babychicken extends MovableObject {
         this.playAnimation(this.IMAGES_WALKING);
       }
     }, 1000 / 24); // 30 frames per second
+    // this.world.Intervals.push({
+    //   name: "babyChickenAnimateInterval",
+    //   id: babyChickenAnimateInterval,
+    // });
   }
 }

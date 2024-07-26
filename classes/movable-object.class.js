@@ -2,6 +2,7 @@ class MovableObject extends DrawableObject {
   otherDirection = false;
   speedY = 1;
   gravitation = 2;
+  intervals = [];
 
   health;
   dmg;
@@ -10,7 +11,11 @@ class MovableObject extends DrawableObject {
 
   level_start_x = -150;
   level_end_x = 5000;
-  world;
+
+  setStoppableInterval(callback, intervalName, time) {
+    let intervalId = setInterval(callback, time);
+    this.intervals.push({ name: intervalName, id: intervalId });
+  }
 
   removeEntity(entity) {
     let index = world.level.enemies.indexOf(entity);

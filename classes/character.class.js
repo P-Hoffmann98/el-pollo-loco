@@ -77,12 +77,10 @@ class Character extends MovableObject {
     "img/2_character_pepe/1_idle/long_idle/I-20.png",
   ];
 
-  world;
-  intervalIds = [];
   lastMovement = Date.now(); // Initialize lastMovement
 
   constructor() {
-    super().loadImage("img/2_character_pepe/2_walk/W-21.png");
+    super().loadImage(this.IMAGES_WALKING[0]);
     this.keyboard = new Keyboard();
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMPING);
@@ -118,57 +116,58 @@ class Character extends MovableObject {
   }
 
   animate() {
-    let moveIntervalId = setInterval(() => {
-      walking_sound.pause();
-      if (this.world.keyboard.RIGHT && this.x < this.level_end_x) {
-        this.moveRight();
-        this.otherDirection = false;
-        this.lastMovement = Date.now(); // Update last movement time
-        if (!this.isAboveGround()) {
-          walking_sound.play();
+    this.setStoppableInterval(
+      () => {
+        walking_sound.pause();
+        if (this.world.keyboard.RIGHT && this.x < this.level_end_x) {
+          this.moveRight();
+          this.otherDirection = false;
+          this.lastMovement = Date.now(); // Update last movement time
+          if (!this.isAboveGround()) {
+            walking_sound.play();
+          }
         }
-      }
-      if (this.world.keyboard.LEFT && this.x > this.level_start_x) {
-        this.moveLeft();
-        this.otherDirection = true;
-        this.lastMovement = Date.now(); // Update last movement time
-        if (!this.isAboveGround()) {
-          walking_sound.play();
+        if (this.world.keyboard.LEFT && this.x > this.level_start_x) {
+          this.moveLeft();
+          this.otherDirection = true;
+          this.lastMovement = Date.now(); // Update last movement time
+          if (!this.isAboveGround()) {
+            walking_sound.play();
+          }
         }
-      }
 
-      if (this.world.keyboard.UP && !this.isAboveGround()) {
-        this.jump();
-        this.lastMovement = Date.now(); // Update last movement time
-      }
-      this.world.camera_x = -this.x + 150;
-    }, 1000 / 30);
-    this.intervalIds.push(moveIntervalId);
-
-    let animationIntervalId = setInterval(() => {
-      let currentTime = Date.now(); // Update current time inside the interval
-
-      if (this.isDead()) {
-        this.playAnimation(this.IMAGES_DEAD);
-      } else if (this.isHurt()) {
-        this.playAnimation(this.IMAGES_HURT);
-      } else if (this.isAboveGround()) {
-        this.playAnimation(this.IMAGES_JUMPING);
-      } else if (currentTime - this.lastMovement > 5000) {
-        this.playAnimation(this.IMAGES_LONG_IDLE);
-      } else if (currentTime - this.lastMovement > 1000) {
-        this.playAnimation(this.IMAGES_IDLE);
-      } else {
-        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-          this.playAnimation(this.IMAGES_WALKING);
+        if (this.world.keyboard.UP && !this.isAboveGround()) {
+          this.jump();
+          this.lastMovement = Date.now(); // Update last movement time
         }
-      }
-    }, 1000 / 10);
-    this.intervalIds.push(animationIntervalId);
-  }
+        this.world.camera_x = -this.x + 150;
+      },
+      "CharacterInverval",
+      1000 / 30
+    );
 
-  clearAllIntervals() {
-    this.intervalIds.forEach((id) => clearInterval(id));
-    this.intervalIds = [];
+    this.setStoppableInterval(
+      () => {
+        let currentTime = Date.now(); // Update current time inside the interval
+
+        if (this.isDead()) {
+          this.playAnimation(this.IMAGES_DEAD);
+        } else if (this.isHurt()) {
+          this.playAnimation(this.IMAGES_HURT);
+        } else if (this.isAboveGround()) {
+          this.playAnimation(this.IMAGES_JUMPING);
+        } else if (currentTime - this.lastMovement > 5000) {
+          this.playAnimation(this.IMAGES_LONG_IDLE);
+        } else if (currentTime - this.lastMovement > 1000) {
+          this.playAnimation(this.IMAGES_IDLE);
+        } else {
+          if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+            this.playAnimation(this.IMAGES_WALKING);
+          }
+        }
+      },
+      "CharakterInverval",
+      1000 / 10
+    );
   }
 }

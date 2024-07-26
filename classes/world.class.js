@@ -7,6 +7,7 @@ class World {
   camera_x = 0;
   statusBar;
   throwableObjects = [];
+  intervals = [];
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -54,23 +55,49 @@ class World {
     this.draw();
     this.setWorld();
     this.run();
-    // this.playThemeSound();
-    // this.playCluckingSound();
+    this.playThemeSound();
+    this.playCluckingSound();
+    this.mergeIntervalArrays();
   }
 
   setWorld() {
     this.character.world = this;
   }
 
+  mergeIntervalArrays() {
+    const characterIntervals = this.character.intervals;
+    const enemyIntervals = this.level.enemies.reduce(
+      (intervalArray, enemy) => [...intervalArray, ...enemy.intervals],
+      []
+    );
+    this.intervals = [
+      ...this.intervals,
+      ...characterIntervals,
+      ...enemyIntervals,
+    ];
+  }
+
+  setStoppableInterval(callback, intervalName, time) {
+    let intervalId = setInterval(callback, time);
+    this.intervals.push({ name: intervalName, id: intervalId });
+  }
+  stopAllIntervals() {
+    this.intervals.forEach((interval) => clearInterval(interval.id));
+  }
+
   run() {
-    setInterval(() => {
-      this.checkEnemyCollision();
-      this.checkSalsaCollision();
-      this.checkCoinCollision();
-      this.checkThrowedObjects();
-      this.checkThrowedObjectsCollision();
-      this.checkCharacterDead();
-    }, 100);
+    this.setStoppableInterval(
+      () => {
+        this.checkEnemyCollision();
+        this.checkSalsaCollision();
+        this.checkCoinCollision();
+        this.checkThrowedObjects();
+        this.checkThrowedObjectsCollision();
+        this.checkCharacterDead();
+      },
+      "runInterval",
+      100
+    );
   }
 
   checkCharacterDead() {
@@ -234,14 +261,30 @@ class World {
   }
 
   playThemeSound() {
-    setInterval(() => {
-      theme_sound.play();
-    }, 100); // start and restart Theme Song after 1 sec
+    this.setStoppableInterval(
+      () => {
+        theme_sound.play();
+      },
+      "playThemeSoundInterval",
+      100
+    ); // start and restart Theme Song after 1 sec
   }
 
   playCluckingSound() {
-    setInterval(() => {
-      clucking_sound.play();
-    }, 20000); // Plays clucking sound every 20 seconds
+    this.setStoppableInterval(
+      () => {
+        clucking_sound.play();
+      },
+      "playCluckingSoundInterval",
+      20000
+    ); // Plays clucking sound every 20 seconds
   }
 }
+
+// INTERVAL VORLAGE
+// this.setStoppableInterval(
+//   () => {
+//     function
+//   },
+//   "playCluckingSoundInterval",
+//   time
