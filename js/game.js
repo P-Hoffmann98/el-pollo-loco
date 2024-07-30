@@ -96,6 +96,7 @@ function checkEndbossDead() {
 function checkCharacterDead() {
   if (!characterdead) {
     if (world.character && world.character.isDead()) {
+      pepe_dead_sound.play();
       console.log("Character has died");
       this.handleGameOver();
       characterdead = true;
@@ -116,6 +117,7 @@ function handleGameOver() {
     1,
     4
   )}.png`;
+  fail_sound.play();
   gameOverScreen.style.display = "block";
   setTimeout(() => {
     world.stopAllIntervals();

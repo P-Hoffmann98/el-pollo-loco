@@ -129,7 +129,7 @@ class World {
    * Checks for new throwed objects, creates them and updates the statusbar.
    * @constructor
    */
-  createNewThrowedObjects() {
+  checkNewThrowedObjects() {
     if (this.keyboard.D && this.character.salsaMeter > 0) {
       let bottle = new ThrowableObject(
         this,
@@ -153,6 +153,7 @@ class World {
         if (bottle.isColliding(enemy)) {
           console.log("bottle hit");
           enemy.isHit(100);
+          bottle_break_sound.play();
           this.throwableObjects.splice(bottleIndex, 1); // Remove the bottle after handling the collision
         }
       });
@@ -181,6 +182,7 @@ class World {
           this.character.hitCooldown
         ) {
           this.character.isHit(enemy.dmg);
+          pepe_dmg_sound.play();
           this.character.lastHitTime = currentTime;
           console.log("Pepe got hit", this.character.health);
           this.statusBar[0].setPercentage(this.character.health);
