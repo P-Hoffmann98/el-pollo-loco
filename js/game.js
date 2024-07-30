@@ -96,8 +96,10 @@ function handleGameWin() {
   console.log("Your Score:", world.score);
 
   const gameOverScreen = document.getElementById("gameoverscreen");
+  const score = document.getElementById("score");
   gameOverScreen.src = "img/other_imgs/score.png";
   gameOverScreen.style.display = "block";
+  score.textContent = world.score;
   win_sound.play();
   world.stopAllIntervals();
 }

@@ -51,6 +51,7 @@ class Endboss extends MovableObject {
 
   otherDirection = false;
   deathHandled = 0;
+  deathActionsDone = false; // Flag to ensure actions are done only once
 
   constructor() {
     super();
@@ -71,15 +72,16 @@ class Endboss extends MovableObject {
     this.setStoppableInterval(
       () => {
         if (this.isDead()) {
-          if (this.deathHandled < 4) {
+          if (this.deathHandled < 5) {
+            // Play the death animation 5 times
             this.playAnimation(this.IMAGES_DEAD);
             this.deathHandled++; // Count the animated imgs
-          } else {
+          } else if (!this.deathActionsDone) {
+            // Ensure actions are done only once
+            this.deathActionsDone = true;
             setTimeout(() => {
-              //Remove Boss after 0.5s of Death Animation
               console.log("chicken dead");
               addScore(500);
-
               handleGameWin();
             }, 500);
           }

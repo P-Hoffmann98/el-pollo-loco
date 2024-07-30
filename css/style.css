@@ -66,6 +66,15 @@ canvas {
   display: none;
 }
 
+#score {
+  position: relative;
+  transform: translateY(153px);
+  text-align: center;
+  z-index: 3;
+  font-size: 40px;
+  color: orange;
+}
+
 .buttons {
   display: flex;
   position: absolute;

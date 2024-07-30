@@ -20,10 +20,8 @@ function startGame() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   document.getElementById("startButton").style.cursor = "not-allowed";
   document.getElementById("startButton").disabled = true;
-
   // Hide the game over screen
   document.getElementById("gameoverscreen").style.display = "none";
-
   // Initialize the game
   init();
 }
