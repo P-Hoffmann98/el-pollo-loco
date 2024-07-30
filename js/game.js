@@ -77,19 +77,6 @@ function getRandomInt(min, max) {
 }
 
 /**
- * Checks if the Endboss is dead.
- * @constructor
- */
-function checkEndbossDead() {
-  if (!endbossdead) {
-    if (world.character && world.level.enemies[0].isDead()) {
-      console.log("Endboss has died, YOU WIN!");
-      endbossdead = true;
-    }
-  }
-}
-
-/**
  * Checks if the Character is dead.
  * @constructor
  */
@@ -102,6 +89,14 @@ function checkCharacterDead() {
       characterdead = true;
     }
   }
+}
+
+function handleGameWin() {
+  const gameOverScreen = document.getElementById("gameoverscreen");
+  gameOverScreen.src = "img/other_imgs/winscreen.webp";
+  gameOverScreen.style.display = "block";
+  win_sound.play();
+  world.stopAllIntervals();
 }
 
 /**

@@ -10,6 +10,7 @@ let jump_sound = new Audio("audio/jump.mp3");
 
 theme_sound.volume = 0.1;
 clucking_sound.volume = 0.02;
+win_sound.volume = 0.5;
 fail_sound.volume = 0.1;
 bottle_break_sound.volume = 0.01;
 jump_sound.volume = 0.6;
@@ -48,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
       jump_sound.volume = 0.6;
       pepe_dead_sound.volume = 0.5;
       pepe_dmg_sound.volume = 0.5;
+      win_sound.volume = 0.5;
     } else {
       soundToggleButton.textContent = "Turn Sound On";
       walking_sound.volume = 0; // Mute the volumes
@@ -56,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
       jump_sound.volume = 0;
       pepe_dead_sound.volume = 0;
       pepe_dmg_sound.volume = 0;
+      win_sound.volume = 0;
     }
   });
 });

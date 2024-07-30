@@ -78,7 +78,7 @@ class Endboss extends MovableObject {
             setTimeout(() => {
               //Remove Boss after 0.5s of Death Animation
               console.log("chicken dead");
-              this.removeEntity(this);
+              handleGameWin();
             }, 500);
           }
         } else if (this.isHurt()) {

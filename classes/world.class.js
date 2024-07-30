@@ -73,7 +73,6 @@ class World {
         this.checkNewThrowedObjects();
         this.checkThrowedObjectsCollision();
         checkCharacterDead();
-        checkCharacterDead();
       },
       "runInterval",
       100
