@@ -8,6 +8,15 @@ class World {
   statusBar;
   throwableObjects = [];
   intervals = [];
+  Endbossdead = false;
+  Characterdead = false;
+
+  IMAGES_GAME_OVER = [
+    "img/9_intro_outro_screens/game_over/1.png",
+    "img/9_intro_outro_screens/game_over/2.png",
+    "img/9_intro_outro_screens/game_over/3.png",
+    "img/9_intro_outro_screens/game_over/4.png",
+  ];
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -55,9 +64,26 @@ class World {
     this.draw();
     this.setWorld();
     this.run();
-    this.playThemeSound();
-    this.playCluckingSound();
+    // this.playThemeSound();
+    // this.playCluckingSound();
     this.mergeIntervalArrays();
+    this.loadImages(this.IMAGES_GAME_OVER);
+  }
+
+  run() {
+    this.setStoppableInterval(
+      () => {
+        this.checkEnemyCollision();
+        this.checkSalsaCollision();
+        this.checkCoinCollision();
+        this.checkThrowedObjects();
+        this.checkThrowedObjectsCollision();
+        this.checkCharacterDead();
+        this.checkEndbossDead();
+      },
+      "runInterval",
+      100
+    );
   }
 
   setWorld() {
@@ -81,35 +107,37 @@ class World {
     let intervalId = setInterval(callback, time);
     this.intervals.push({ name: intervalName, id: intervalId });
   }
+
   stopAllIntervals() {
     this.intervals.forEach((interval) => clearInterval(interval.id));
   }
 
-  run() {
-    this.setStoppableInterval(
-      () => {
-        this.checkEnemyCollision();
-        this.checkSalsaCollision();
-        this.checkCoinCollision();
-        this.checkThrowedObjects();
-        this.checkThrowedObjectsCollision();
-        this.checkCharacterDead();
-      },
-      "runInterval",
-      100
-    );
+  checkEndbossDead() {
+    if (!this.endbossDead) {
+      if (this.character && this.level.enemies[0].isDead()) {
+        console.log("Endboss has died, YOU WIN!");
+        this.endbossDead = true;
+      }
+    }
   }
 
   checkCharacterDead() {
-    if (this.character && this.character.isDead()) {
-      console.log("Character has died");
-      this.handleGameOver();
+    if (!this.characterDead) {
+      if (this.character && this.character.isDead()) {
+        console.log("Character has died");
+        this.handleGameOver();
+        this.characterDead = true;
+      }
     }
   }
 
   handleGameOver() {
+    this.level.enemies.splice(0, this.level.enemies.length);
+    this.stopAllIntervals();
+    if (Characterdead === true) {
+      new BackgroundObject("img/9_intro_outro_screens/game_over/1.png", 0, 0);
+    }
     console.log("Game Over");
-    // for (let i = 1; i < 9999; i++) window.clearInterval(i);
   }
 
   checkThrowedObjects() {
@@ -280,11 +308,3 @@ class World {
     ); // Plays clucking sound every 20 seconds
   }
 }
-
-// INTERVAL VORLAGE
-// this.setStoppableInterval(
-//   () => {
-//     function
-//   },
-//   "playCluckingSoundInterval",
-//   time

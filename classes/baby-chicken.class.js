@@ -7,7 +7,7 @@ class Babychicken extends MovableObject {
 
   speed = 0.5 + Math.random() * 2.5;
 
-  health = 20;
+  health = 10;
   dmg = 10;
 
   IMAGES_WALKING = [
