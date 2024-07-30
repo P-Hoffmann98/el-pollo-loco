@@ -9,6 +9,10 @@ function showStartScreen() {
   };
 }
 
+/**
+ * Declaring the canvas, clearing the canvas hiding the start button and initilazes the game.
+ * @constructor
+ */
 function startGame() {
   // Clear the canvas and hide the start button
   let canvas = document.getElementById("canvas");

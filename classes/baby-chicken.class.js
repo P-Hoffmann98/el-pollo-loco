@@ -27,6 +27,10 @@ class Babychicken extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Animates loaded images.
+   * @constructor
+   */
   animate() {
     setInterval(() => {
       if (this.isDead()) {

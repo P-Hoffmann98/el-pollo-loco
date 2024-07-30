@@ -54,18 +54,32 @@ window.addEventListener("keyup", (key) => {
   }
 });
 
+/**
+ * Initializes the game.
+ * @constructor
+ */
 function init() {
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
   console.log(world);
 }
 
+/**
+ * Returns a random number inbetween of the min and max.
+ * @constructor
+ * @param {string} min - The smallest number.
+ * @param {string} max - The biggest number.
+ */
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+/**
+ * Checks if the Endboss is dead.
+ * @constructor
+ */
 function checkEndbossDead() {
   if (!endbossdead) {
     if (world.character && world.level.enemies[0].isDead()) {
@@ -75,6 +89,10 @@ function checkEndbossDead() {
   }
 }
 
+/**
+ * Checks if the Character is dead.
+ * @constructor
+ */
 function checkCharacterDead() {
   if (!characterdead) {
     if (world.character && world.character.isDead()) {
@@ -85,6 +103,10 @@ function checkCharacterDead() {
   }
 }
 
+/**
+ * Splices all enemies and adds the randomized Gamer Over overlay.
+ * @constructor
+ */
 function handleGameOver() {
   const gameOverScreen = document.getElementById("gameoverscreen");
   world.level.enemies.splice(0, world.level.enemies.length);

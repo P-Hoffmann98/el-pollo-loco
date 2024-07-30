@@ -18,6 +18,10 @@ class ThrowableObject extends MovableObject {
     this.throw();
   }
 
+  /**
+   * Makes throwableobjects get thrown and plays spin animation.
+   * @constructor
+   */
   throw() {
     this.speedY = 10;
     this.applyGravity();

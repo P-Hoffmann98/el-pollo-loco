@@ -13,7 +13,10 @@ class Level {
     this.coins = coins;
   }
 
-  // Spread the Chickens
+  /**
+   * Makes sure Chickens spawn spread evenly.
+   * @constructor
+   */
   ensureChickenSpacing() {
     for (let i = 0; i < this.enemies.length; i++) {
       if (this.enemies[i] instanceof Chicken) {
@@ -30,7 +33,10 @@ class Level {
     }
   }
 
-  // Spread the Coins
+  /**
+   * Makes sure Coins spawn spread evenly.
+   * @constructor
+   */
   ensureCoinSpacing() {
     for (let i = 0; i < this.coins.length; i++) {
       let coin = this.coins[i];

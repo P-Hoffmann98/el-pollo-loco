@@ -16,7 +16,10 @@ class SalsaBottle extends MovableObject {
     this.loadImages(this.IMAGES_BOTTLE);
     this.animate();
   }
-
+  /**
+   * Animates loaded images.
+   * @constructor
+   */
   animate() {
     setInterval(() => {
       this.playAnimation(this.IMAGES_BOTTLE);

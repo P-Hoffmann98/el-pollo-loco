@@ -93,6 +93,10 @@ class Character extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Updates the Keyboard.
+   * @constructor
+   */
   update() {
     if (!this.keyboard) {
       console.error("Keyboard not initialized");
@@ -100,7 +104,11 @@ class Character extends MovableObject {
     }
   }
 
-  // Adding Collect method for salsa bottles
+  /**
+   * Makes Character collect and count coins.
+   * @constructor
+   * @param {string} amount - The amount of salsa picked up.
+   */
   collectsSalsa(amount) {
     this.salsaMeter += amount;
     if (this.salsaMeter > 5) {
@@ -108,7 +116,11 @@ class Character extends MovableObject {
     }
   }
 
-  // Adding Collect method for coins
+  /**
+   * Makes Character collect and count coins.
+   * @constructor
+   * @param {string} amount - The amount of coins picked up.
+   */
   collectsCoins(amount) {
     this.coin_count += amount;
     if (this.coin_count > 5) {
@@ -116,6 +128,10 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * Animates loaded images.
+   * @constructor
+   */
   animate() {
     this.setStoppableInterval(
       () => {

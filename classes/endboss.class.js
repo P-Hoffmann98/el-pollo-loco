@@ -63,6 +63,10 @@ class Endboss extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Animates loaded images and removes Endboss if dead.
+   * @constructor
+   */
   animate() {
     this.setStoppableInterval(
       () => {

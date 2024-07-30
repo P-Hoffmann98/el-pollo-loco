@@ -60,13 +60,17 @@ class World {
     this.mergeIntervalArrays();
   }
 
+  /**
+   * Runs through all the checks while game is played.
+   * @constructor
+   */
   run() {
     this.setStoppableInterval(
       () => {
         this.checkEnemyCollision();
         this.checkSalsaCollision();
         this.checkCoinCollision();
-        this.checkThrowedObjects();
+        this.checkNewThrowedObjects();
         this.checkThrowedObjectsCollision();
         checkCharacterDead();
         checkCharacterDead();
@@ -76,10 +80,18 @@ class World {
     );
   }
 
+  /**
+   * Focus world around character.
+   * @constructor
+   */
   setWorld() {
     this.character.world = this;
   }
 
+  /**
+   * Intervals get gathered in all classes and merged here.
+   * @constructor
+   */
   mergeIntervalArrays() {
     const characterIntervals = this.character.intervals;
     const enemyIntervals = this.level.enemies.reduce(
@@ -93,16 +105,31 @@ class World {
     ];
   }
 
+  /**
+   * Saves Intervals with ther Name and ID in an Array.
+   * @constructor
+   * @param {string} callback - What the Interval is filled with.
+   * @param {string} intervalName - The Name of the interval.
+   * @param {string} time - The repeat time for the interval.
+   */
   setStoppableInterval(callback, intervalName, time) {
     let intervalId = setInterval(callback, time);
     this.intervals.push({ name: intervalName, id: intervalId });
   }
 
+  /**
+   * Stops all Intervals saved in the intervals array.
+   * @constructor
+   */
   stopAllIntervals() {
     this.intervals.forEach((interval) => clearInterval(interval.id));
   }
 
-  checkThrowedObjects() {
+  /**
+   * Checks for new throwed objects, creates them and updates the statusbar.
+   * @constructor
+   */
+  createNewThrowedObjects() {
     if (this.keyboard.D && this.character.salsaMeter > 0) {
       let bottle = new ThrowableObject(
         this,
@@ -116,6 +143,10 @@ class World {
     }
   }
 
+  /**
+   * Checks for collisions of throwableobjects and enemies.
+   * @constructor
+   */
   checkThrowedObjectsCollision() {
     this.level.enemies.forEach((enemy) => {
       this.throwableObjects.forEach((bottle, bottleIndex) => {
@@ -128,6 +159,10 @@ class World {
     });
   }
 
+  /**
+   * Checks for collisions of character and enemies.
+   * @constructor
+   */
   checkEnemyCollision() {
     let currentTime = Date.now();
     this.level.enemies.forEach((enemy) => {
@@ -156,40 +191,46 @@ class World {
     });
   }
 
+  /**
+   * Checks for collisions of character and collectable salsabottles and collects them.
+   * @constructor
+   */
   checkSalsaCollision() {
     this.level.salsabottles.forEach((bottle, index) => {
       if (this.character.isColliding(bottle)) {
         this.character.collectsSalsa(1);
-        //this.character.collects(bottle.salsaMeter);
         this.level.salsabottles.splice(index, 1); // Remove collected bottle from game
-        // console.log(
-        //   "Collision with Bottle",
-        //   "Pepe's SalsaMeter:",
-        //   this.character.salsaMeter
-        // );
         this.statusBar[2].setPercentage(this.character.salsaMeter * 20); // Fill up that salsa juice
-        //this.character.salsa_count++;
-        //console.log(this.character.salsa_count);
       }
     });
   }
 
+  /**
+   * Checks for collisions of character and collectable coins and collects them.
+   * @constructor
+   */
   checkCoinCollision() {
     this.level.coins.forEach((coin, index) => {
       if (this.character.isColliding(coin)) {
         this.character.collectsCoins(1);
         this.level.coins.splice(index, 1); // Remove collected Coin from game
-        // console.log("coin");
         this.statusBar[1].setPercentage(this.character.coin_count * 20);
       }
     });
   }
 
-  // Function to clear the canvas
+  /**
+   * Clears the canvas.
+   * @constructor
+   */
   clearCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 
+  /**
+   * Draws on the canvas.
+   * @constructor
+   */
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.camera_x, 0);
@@ -215,14 +256,22 @@ class World {
     });
   }
 
-  // added Objects zur Drawliste
+  /**
+   * Adds Objects to the drawing list.
+   * @constructor
+   * @param {string} objects - The object to add.
+   */
   addObjects(objects) {
     objects.forEach((o) => {
       this.addToMap(o);
     });
   }
 
-  // draws objects list
+  /**
+   * Adds Objects to the drawing list.
+   * @constructor
+   * @param {string} mo - The movableobject to add.
+   */
   addToMap(mo) {
     // flip context if otherDirection is true
     if (mo.otherDirection) {
@@ -238,6 +287,11 @@ class World {
     }
   }
 
+  /**
+   * Flips the image of a movableobject ,if it turns around for example.
+   * @constructor
+   * @param {string} mo - The movableobject to flip.
+   */
   flipImage(mo) {
     this.ctx.save();
     this.ctx.translate(mo.width, 0);
@@ -245,11 +299,20 @@ class World {
     mo.x = mo.x * -1;
   }
 
+  /**
+   * Flips the image of a movableobject back, if it turns around for example.
+   * @constructor
+   * @param {string} mo - The movableobject to flip back.
+   */
   flipImageBack(mo) {
     mo.x = mo.x * -1;
     this.ctx.restore();
   }
 
+  /**
+   * Plays the theme Song.
+   * @constructor
+   */
   playThemeSound() {
     this.setStoppableInterval(
       () => {
@@ -260,6 +323,10 @@ class World {
     ); // start and restart Theme Song after 1 sec
   }
 
+  /**
+   * Plays a clucking sound of chickens.
+   * @constructor
+   */
   playCluckingSound() {
     this.setStoppableInterval(
       () => {
