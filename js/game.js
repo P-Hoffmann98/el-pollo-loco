@@ -2,8 +2,8 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 
-endbossdead = false;
-characterdead = false;
+let endbossdead = false;
+let characterdead = false;
 
 let IMAGES_GAME_OVER = [
   "img/9_intro_outro_screens/game_over/1.png",
@@ -60,12 +60,13 @@ window.addEventListener("keyup", (key) => {
  */
 function init() {
   canvas = document.getElementById("canvas");
+  world = null;
   world = new World(canvas, keyboard);
   console.log(world);
 }
 
 /**
- * Returns a random number inbetween of the min and max.
+ * Returns a random number in between the min and max.
  * @constructor
  * @param {string} min - The smallest number.
  * @param {string} max - The biggest number.
@@ -85,25 +86,29 @@ function checkCharacterDead() {
     if (world.character && world.character.isDead()) {
       pepe_dead_sound.play();
       console.log("Character has died");
-      this.handleGameOver();
+      handleGameOver();
       characterdead = true;
     }
   }
 }
 
 function handleGameWin() {
+  console.log("Your Score:", world.score);
+
   const gameOverScreen = document.getElementById("gameoverscreen");
-  gameOverScreen.src = "img/other_imgs/winscreen.webp";
+  gameOverScreen.src = "img/other_imgs/score.png";
   gameOverScreen.style.display = "block";
   win_sound.play();
   world.stopAllIntervals();
 }
 
 /**
- * Splices all enemies and adds the randomized Gamer Over overlay.
+ * Splices all enemies and adds the randomized Game Over overlay.
  * @constructor
  */
 function handleGameOver() {
+  console.log("Your Score:", world.score);
+
   const gameOverScreen = document.getElementById("gameoverscreen");
   world.level.enemies.splice(0, world.level.enemies.length);
   world.level.salsabottles.splice(0, world.level.salsabottles.length);
@@ -116,10 +121,11 @@ function handleGameOver() {
   gameOverScreen.style.display = "block";
   setTimeout(() => {
     world.stopAllIntervals();
+    document.getElementById("startButton").style.cursor = "pointer";
+    document.getElementById("startButton").disabled = false;
   }, 1000);
-  // if (endbossdead === true) {
-  //   winscreen
-  // }else{
-  //   gameoverscreen
-  // }
+}
+
+function addScore(score) {
+  world.score += score;
 }

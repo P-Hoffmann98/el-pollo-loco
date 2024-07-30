@@ -42,6 +42,7 @@ class Babychicken extends MovableObject {
           setTimeout(() => {
             console.log("chicken dead");
             this.removeEntity(this);
+            addScore(50);
           }, 500);
         }
       } else {

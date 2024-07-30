@@ -10,7 +10,7 @@ function showStartScreen() {
 }
 
 /**
- * Declaring the canvas, clearing the canvas hiding the start button and initilazes the game.
+ * Declaring the canvas, clearing the canvas hiding the start button and initializes the game.
  * @constructor
  */
 function startGame() {
@@ -18,7 +18,11 @@ function startGame() {
   let canvas = document.getElementById("canvas");
   let ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  document.getElementById("startButton").style.display = "none";
+  document.getElementById("startButton").style.cursor = "not-allowed";
+  document.getElementById("startButton").disabled = true;
+
+  // Hide the game over screen
+  document.getElementById("gameoverscreen").style.display = "none";
 
   // Initialize the game
   init();

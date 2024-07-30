@@ -45,6 +45,7 @@ class Chicken extends MovableObject {
             setTimeout(() => {
               console.log("chicken dead");
               this.removeEntity(this);
+              addScore(100);
             }, 500);
           }
         } else {

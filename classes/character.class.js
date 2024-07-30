@@ -111,9 +111,6 @@ class Character extends MovableObject {
    */
   collectsSalsa(amount) {
     this.salsaMeter += amount;
-    if (this.salsaMeter > 5) {
-      this.salsaMeter = 5; // cap the salsa meter at 5
-    }
   }
 
   /**
@@ -123,9 +120,7 @@ class Character extends MovableObject {
    */
   collectsCoins(amount) {
     this.coin_count += amount;
-    if (this.coin_count > 5) {
-      this.coin_count = 5; // cap the salsa meter at 5
-    }
+    addScore(250);
   }
 
   /**

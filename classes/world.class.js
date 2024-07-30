@@ -8,6 +8,7 @@ class World {
   statusBar;
   throwableObjects = [];
   intervals = [];
+  score = 0;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -198,10 +199,12 @@ class World {
    */
   checkSalsaCollision() {
     this.level.salsabottles.forEach((bottle, index) => {
-      if (this.character.isColliding(bottle)) {
-        this.character.collectsSalsa(1);
-        this.level.salsabottles.splice(index, 1); // Remove collected bottle from game
-        this.statusBar[2].setPercentage(this.character.salsaMeter * 20); // Fill up that salsa juice
+      if (this.character.salsaMeter < 5) {
+        if (this.character.isColliding(bottle)) {
+          this.character.collectsSalsa(1);
+          this.level.salsabottles.splice(index, 1); // Remove collected bottle from game
+          this.statusBar[2].setPercentage(this.character.salsaMeter * 20); // Fill up that salsa juice
+        }
       }
     });
   }

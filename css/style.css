@@ -70,11 +70,11 @@ canvas {
   display: flex;
   position: absolute;
   bottom: 1px;
-  gap: 24px;
+  gap: 40px;
 }
 
 button {
-  font-size: 40px;
+  font-size: 50px;
   font-family: "zabars", Arial, Helvetica, sans-serif;
   background-color: orange;
   cursor: pointer;
