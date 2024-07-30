@@ -33,7 +33,10 @@
   <body onload="showStartScreen()">
     <h1>¡el pollo loco!</h1>
     <button id="startButton" onclick="startGame()">¡Vamos!</button>
-    <canvas id="canvas" width="720px" height="480px"></canvas>
+    <div class="canvas-and-gamescreens">
+      <canvas id="canvas" width="720px" height="480px"></canvas>
+      <img id="gameoverscreen" class="gameoverscreen" />
+    </div>
     <div class="how-to-play">
       <h2>How to Play</h2>
       <div class="controls">

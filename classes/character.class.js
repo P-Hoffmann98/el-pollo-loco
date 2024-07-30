@@ -78,6 +78,7 @@ class Character extends MovableObject {
   ];
 
   lastMovement = Date.now(); // Initialize lastMovement
+  deathHandled = 0;
 
   constructor() {
     super().loadImage(this.IMAGES_WALKING[0]);
@@ -142,7 +143,7 @@ class Character extends MovableObject {
         }
         this.world.camera_x = -this.x + 150;
       },
-      "CharacterInverval",
+      "CharacterAnimateInterval1",
       1000 / 30
     );
 
@@ -151,7 +152,10 @@ class Character extends MovableObject {
         let currentTime = Date.now(); // Update current time inside the interval
 
         if (this.isDead()) {
-          this.playAnimation(this.IMAGES_DEAD);
+          if (this.deathHandled < 7) {
+            this.playAnimation(this.IMAGES_DEAD);
+            this.deathHandled++;
+          }
         } else if (this.isHurt()) {
           this.playAnimation(this.IMAGES_HURT);
         } else if (this.isAboveGround()) {
@@ -166,7 +170,7 @@ class Character extends MovableObject {
           }
         }
       },
-      "CharakterInverval",
+      "CharakterAnimateInterval2",
       1000 / 10
     );
   }

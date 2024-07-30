@@ -8,15 +8,6 @@ class World {
   statusBar;
   throwableObjects = [];
   intervals = [];
-  Endbossdead = false;
-  Characterdead = false;
-
-  IMAGES_GAME_OVER = [
-    "img/9_intro_outro_screens/game_over/1.png",
-    "img/9_intro_outro_screens/game_over/2.png",
-    "img/9_intro_outro_screens/game_over/3.png",
-    "img/9_intro_outro_screens/game_over/4.png",
-  ];
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -67,7 +58,6 @@ class World {
     // this.playThemeSound();
     // this.playCluckingSound();
     this.mergeIntervalArrays();
-    this.loadImages(this.IMAGES_GAME_OVER);
   }
 
   run() {
@@ -78,8 +68,8 @@ class World {
         this.checkCoinCollision();
         this.checkThrowedObjects();
         this.checkThrowedObjectsCollision();
-        this.checkCharacterDead();
-        this.checkEndbossDead();
+        checkCharacterDead();
+        checkCharacterDead();
       },
       "runInterval",
       100
@@ -110,34 +100,6 @@ class World {
 
   stopAllIntervals() {
     this.intervals.forEach((interval) => clearInterval(interval.id));
-  }
-
-  checkEndbossDead() {
-    if (!this.endbossDead) {
-      if (this.character && this.level.enemies[0].isDead()) {
-        console.log("Endboss has died, YOU WIN!");
-        this.endbossDead = true;
-      }
-    }
-  }
-
-  checkCharacterDead() {
-    if (!this.characterDead) {
-      if (this.character && this.character.isDead()) {
-        console.log("Character has died");
-        this.handleGameOver();
-        this.characterDead = true;
-      }
-    }
-  }
-
-  handleGameOver() {
-    this.level.enemies.splice(0, this.level.enemies.length);
-    this.stopAllIntervals();
-    if (Characterdead === true) {
-      new BackgroundObject("img/9_intro_outro_screens/game_over/1.png", 0, 0);
-    }
-    console.log("Game Over");
   }
 
   checkThrowedObjects() {
