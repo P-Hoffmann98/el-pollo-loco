@@ -54,6 +54,65 @@ window.addEventListener("keyup", (key) => {
   }
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("btn-left").addEventListener("mousedown", () => {
+    keyboard.LEFT = true;
+  });
+  document.getElementById("btn-left").addEventListener("mouseup", () => {
+    keyboard.LEFT = false;
+  });
+
+  document.getElementById("btn-right").addEventListener("mousedown", () => {
+    keyboard.RIGHT = true;
+  });
+  document.getElementById("btn-right").addEventListener("mouseup", () => {
+    keyboard.RIGHT = false;
+  });
+
+  document.getElementById("btn-up").addEventListener("mousedown", () => {
+    keyboard.UP = true;
+  });
+  document.getElementById("btn-up").addEventListener("mouseup", () => {
+    keyboard.UP = false;
+  });
+
+  document.getElementById("btn-salsa").addEventListener("mousedown", () => {
+    keyboard.D = true;
+  });
+  document.getElementById("btn-salsa").addEventListener("mouseup", () => {
+    keyboard.D = false;
+  });
+
+  // For touch devices
+  document.getElementById("btn-left").addEventListener("touchstart", () => {
+    keyboard.LEFT = true;
+  });
+  document.getElementById("btn-left").addEventListener("touchend", () => {
+    keyboard.LEFT = false;
+  });
+
+  document.getElementById("btn-right").addEventListener("touchstart", () => {
+    keyboard.RIGHT = true;
+  });
+  document.getElementById("btn-right").addEventListener("touchend", () => {
+    keyboard.RIGHT = false;
+  });
+
+  document.getElementById("btn-up").addEventListener("touchstart", () => {
+    keyboard.UP = true;
+  });
+  document.getElementById("btn-up").addEventListener("touchend", () => {
+    keyboard.UP = false;
+  });
+
+  document.getElementById("btn-salsa").addEventListener("touchstart", () => {
+    keyboard.D = true;
+  });
+  document.getElementById("btn-salsa").addEventListener("touchend", () => {
+    keyboard.D = false;
+  });
+});
+
 /**
  * Initializes the game.
  * @constructor
@@ -131,3 +190,50 @@ function handleGameOver() {
 function addScore(score) {
   world.score += score;
 }
+
+// Pause all intervals
+function pauseGame() {
+  world.pauseAllIntervals();
+  console.log("Game paused");
+}
+
+// Resume all intervals
+function resumeGame() {
+  world.resumeAllIntervals();
+  console.log("Game resumed");
+}
+
+function fullscreen() {
+  let fullscreen = document.getElementById("canvas-fullscreen");
+  enterFullscreen(fullscreen);
+}
+
+function enterFullscreen(element) {
+  if (element.requestFullscreen) {
+    element.requestFullscreen();
+  } else if (element.msRequestFullscreen) {
+    element.msRequestFullscreen();
+  } else if (element.webkitRequestFullscreen) {
+    element.webkitRequestFullscreen();
+  }
+}
+function exitFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
+  }
+}
+
+// function handleMediaQueryChange(mediaQuery) {
+//   if (mediaQuery.matches) {
+//     enterFullscreen(document.getElementById("canvas-fullscreen"));
+//   } else {
+//     exitFullscreen(document.getElementById("canvas-fullscreen"));
+//   }
+// }
+// const mediaQuery = window.matchMedia(
+//   "(max-width: 950px) and (orientation: landscape)"
+// );
+// mediaQuery.addEventListener("change", (e) => handleMediaQueryChange(e));
+// handleMediaQueryChange(mediaQuery);

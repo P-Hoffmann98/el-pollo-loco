@@ -106,23 +106,53 @@ class World {
   }
 
   /**
-   * Saves Intervals with ther Name and ID in an Array.
-   * @constructor
-   * @param {string} callback - What the Interval is filled with.
+   * Saves Intervals with their Name, ID, callback, interval time, and start time in an Array.
+   * @param {Function} callback - What the Interval is filled with.
    * @param {string} intervalName - The Name of the interval.
-   * @param {string} time - The repeat time for the interval.
+   * @param {number} time - The repeat time for the interval.
    */
   setStoppableInterval(callback, intervalName, time) {
     let intervalId = setInterval(callback, time);
-    this.intervals.push({ name: intervalName, id: intervalId });
+    let startTime = Date.now();
+    this.intervals.push({
+      name: intervalName,
+      id: intervalId,
+      callback: callback,
+      time: time,
+      startTime: startTime,
+      remaining: time,
+    });
   }
 
   /**
    * Stops all Intervals saved in the intervals array.
-   * @constructor
    */
   stopAllIntervals() {
     this.intervals.forEach((interval) => clearInterval(interval.id));
+  }
+
+  /**
+   * Pauses all Intervals by clearing them and calculating remaining time.
+   */
+  pauseAllIntervals() {
+    this.intervals.forEach((interval) => {
+      let elapsed = Date.now() - interval.startTime;
+      interval.remaining = interval.time - (elapsed % interval.time);
+      clearInterval(interval.id);
+    });
+  }
+
+  /**
+   * Resumes all Intervals using the remaining time.
+   */
+  resumeAllIntervals() {
+    this.intervals.forEach((interval) => {
+      setTimeout(() => {
+        interval.callback();
+        interval.id = setInterval(interval.callback, interval.time);
+        interval.startTime = Date.now();
+      }, interval.remaining);
+    });
   }
 
   /**

@@ -54,6 +54,7 @@ canvas {
   left: 0;
   z-index: 1;
   background-color: black;
+  display: block;
 }
 
 .gameoverscreen {
@@ -149,7 +150,64 @@ button {
   width: 150px;
 }
 
+.mobile-controls {
+  z-index: 4;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  bottom: -386px;
+  left: 10px;
+  display: none;
+}
+
+.control-btn {
+  font-size: 20px;
+  padding: 15px 15px;
+  background-color: rgba(255, 166, 0, 0.5);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  border-radius: 15px;
+}
+
+.control-btn:active {
+  background-color: rgba(255, 140, 0, 0.5);
+}
+
+#btn-up {
+  transform: translate(-126px, -86px);
+}
+#btn-salsa {
+  transform: translatex(373px);
+}
+
+#mobile-arrow-left {
+  height: 50px;
+  width: 50px;
+  transform: rotate(90deg);
+}
+#mobile-arrow-right {
+  height: 50px;
+  width: 50px;
+  transform: rotate(-90deg);
+}
+#mobile-arrow-up {
+  height: 50px;
+  width: 50px;
+  transform: rotate(180deg);
+}
+#mobile-salsa {
+  height: 50px;
+  width: 50px;
+  bottom: 500px;
+  transform: rotate(45deg);
+}
+
 @media only screen and (max-width: 720px) {
+  canvas {
+    width: 100%;
+  }
+
   .canvas-and-gamescreens {
     width: 100%;
   }
@@ -159,10 +217,21 @@ button {
 }
 
 @media only screen and (max-height: 480px) {
+  canvas {
+    height: 100vh;
+  }
+
   .canvas-and-gamescreens {
     height: 100vh;
   }
   h1 {
     display: none;
+  }
+}
+
+/* Media query for larger mobile devices in landscape orientation */
+@media only screen and (max-width: 950px) and (orientation: landscape) {
+  .mobile-controls {
+    display: flex;
   }
 }

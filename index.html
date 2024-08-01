@@ -32,8 +32,22 @@
   </head>
   <body onload="showStartScreen()">
     <h1>¡el pollo loco!</h1>
-    <div class="canvas-and-gamescreens">
+    <div id="canvas-fullscreen" class="canvas-and-gamescreens">
       <canvas id="canvas" width="720px" height="480px"></canvas>
+      <div class="mobile-controls">
+        <button class="control-btn" id="btn-left">
+          <img id="mobile-arrow-left" src="img/other_imgs/arrow.png" />
+        </button>
+        <button class="control-btn" id="btn-right">
+          <img id="mobile-arrow-right" src="img/other_imgs/arrow.png" />
+        </button>
+        <button class="control-btn" id="btn-up">
+          <img id="mobile-arrow-up" src="img/other_imgs/arrow.png" />
+        </button>
+        <button class="control-btn" id="btn-salsa">
+          <img id="mobile-salsa" src="img/6_salsa_bottle/salsa_bottle.png" />
+        </button>
+      </div>
       <img id="gameoverscreen" class="gameoverscreen" />
       <p id="score"></p>
     </div>
