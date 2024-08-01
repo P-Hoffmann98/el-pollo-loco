@@ -173,6 +173,7 @@ class Character extends MovableObject {
           this.playAnimation(this.IMAGES_JUMPING);
         } else if (currentTime - this.lastMovement > 5000) {
           this.playAnimation(this.IMAGES_LONG_IDLE);
+          pepe_snoring_sound.play();
         } else if (currentTime - this.lastMovement > 1000) {
           this.playAnimation(this.IMAGES_IDLE);
         } else {

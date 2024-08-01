@@ -5,6 +5,7 @@ let bottle_break_sound = new Audio("audio/bottle-break.mp3");
 let fail_sound = new Audio("audio/fail.mp3");
 let pepe_dmg_sound = new Audio("audio/pepe_damage.mp3");
 let pepe_dead_sound = new Audio("audio/pepe_dead.mp3");
+let pepe_snoring_sound = new Audio("audio/pepe_snoring.mp3");
 let win_sound = new Audio("audio/win.mp3");
 let jump_sound = new Audio("audio/jump.mp3");
 
@@ -16,6 +17,7 @@ bottle_break_sound.volume = 0.01;
 jump_sound.volume = 0.6;
 pepe_dead_sound.volume = 0.5;
 pepe_dmg_sound.volume = 0.5;
+pepe_snoring_sound.volume = 0.2;
 
 jump_sound.playbackRate = 2;
 
@@ -49,7 +51,9 @@ document.addEventListener("DOMContentLoaded", () => {
       jump_sound.volume = 0.6;
       pepe_dead_sound.volume = 0.5;
       pepe_dmg_sound.volume = 0.5;
+      pepe_snoring_sound.volume = 0.2;
       win_sound.volume = 0.5;
+      fail_sound.volume = 0.1;
     } else {
       soundToggleButton.textContent = "Turn Sound On";
       walking_sound.volume = 0; // Mute the volumes
@@ -58,7 +62,9 @@ document.addEventListener("DOMContentLoaded", () => {
       jump_sound.volume = 0;
       pepe_dead_sound.volume = 0;
       pepe_dmg_sound.volume = 0;
+      pepe_snoring_sound.volume = 0;
       win_sound.volume = 0;
+      fail_sound.volume = 0;
     }
   });
 });

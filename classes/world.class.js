@@ -56,8 +56,8 @@ class World {
     this.draw();
     this.setWorld();
     this.run();
-    // this.playThemeSound();
-    // this.playCluckingSound();
+    this.playThemeSound();
+    this.playCluckingSound();
     this.mergeIntervalArrays();
   }
 
