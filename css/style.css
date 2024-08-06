@@ -1,4 +1,5 @@
 * {
+  font-size: clamp(1.5rem, 1.5vw + 1rem, 2.5rem);
   margin: 0;
   box-sizing: border-box;
   text-decoration: none;
@@ -13,46 +14,61 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
   min-height: 100vh;
   margin: 0;
   background-image: url("../img/5_background/desert.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   font-family: "zabars", Arial, Helvetica, sans-serif;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 20px;
 }
 
 h1 {
-  font-size: 80px;
+  font-size: clamp(2rem, 4vw, 5rem);
   letter-spacing: 3px;
   text-shadow: 5px 5px 5px rgb(0, 0, 0, 0.5);
-  margin-bottom: 80px;
-}
-
-h2 {
-  font-size: 64px;
-  letter-spacing: 2px;
-  text-shadow: 5px 5px 5px rgb(0, 0, 0, 0.5);
-  margin-top: 20px;
   margin-bottom: 20px;
   text-align: center;
 }
 
+h2 {
+  font-size: clamp(1.5rem, 3vw, 4rem);
+  letter-spacing: 2px;
+  text-shadow: 5px 5px 5px rgb(0, 0, 0, 0.5);
+  margin: 20px 0;
+  text-align: center;
+}
+
 h3 {
-  font-size: 48px;
+  font-size: clamp(1rem, 2.5vw, 3rem);
+  margin-bottom: 15px;
   letter-spacing: 1px;
   text-shadow: 5px 5px 5px rgb(0, 0, 0, 0.5);
+  text-align: center;
 }
 
 .canvas-and-gamescreens {
   position: relative;
-  width: 720px;
-  height: 480px;
+  width: 100%;
+  max-width: 720px;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  margin-bottom: 20px;
 }
 
 canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
+  width: 100%;
+  height: 100%;
   background-color: black;
   display: block;
 }
@@ -61,33 +77,39 @@ canvas {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 2;
-  height: 480px;
-  width: 720px;
+  width: 100%;
+  height: 100%;
   display: none;
 }
 
 #score {
   position: relative;
-  transform: translateY(153px);
   text-align: center;
   z-index: 3;
-  font-size: 40px;
+  font-size: clamp(1rem, 2.5vw, 3rem);
   color: orange;
+}
+
+button {
+  font-family: "zabars", Arial, Helvetica, sans-serif;
+  background-color: orange;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: clamp(1rem, 2vw, 2rem);
 }
 
 .buttons {
   display: flex;
-  position: absolute;
-  bottom: 1px;
-  gap: 40px;
+  gap: 10px;
+  position: fixed;
+  bottom: 10px;
+  justify-content: center;
+  width: 100%;
 }
 
-button {
-  font-size: 50px;
-  font-family: "zabars", Arial, Helvetica, sans-serif;
-  background-color: orange;
-  cursor: pointer;
+#startButton {
+  margin-top: 10px;
 }
 
 .how-to-play {
@@ -99,53 +121,56 @@ button {
 
 .controls {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  width: 100%;
+  gap: 25px;
 }
 
-.arrow-keys {
+.controls-move,
+.controls-throw {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 50px;
 }
 
-.up-arrow {
-  margin-bottom: 10px;
+.arrows-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.left-right-arrows {
+.horizontal-arrows {
   display: flex;
   justify-content: space-between;
-  width: 150px;
+  width: 120px;
 }
 
-.how-to-play-arrows {
+.controls-arrows {
   height: 50px;
   width: 50px;
 }
 
-#arrow-up {
-  transform: rotate(180deg);
+.controls-arrows + .controls-arrows {
+  margin-left: 10px;
 }
 
-#arrow-left {
+#move-up {
+  transform: rotate(180deg);
+  margin-bottom: 10px;
+}
+
+#move-left {
   transform: rotate(90deg);
 }
 
-#arrow-right {
+#move-right {
   transform: rotate(-90deg);
 }
 
-.throw-key {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 30px;
-}
-
 #D_Key {
-  transform: rotate(38deg);
+  transform: rotate(38deg) translate(25px, 25px);
+  margin-top: -38px;
   height: 150px;
   width: 150px;
 }
@@ -153,10 +178,10 @@ button {
 .mobile-controls {
   z-index: 4;
   justify-content: center;
-  position: relative;
+  position: absolute;
   width: 100%;
-  bottom: -386px;
-  left: 10px;
+  left: 5px;
+  bottom: 5px;
   display: none;
 }
 
@@ -165,9 +190,8 @@ button {
   padding: 15px 15px;
   background-color: rgba(255, 166, 0, 0.5);
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
   border-radius: 15px;
+  cursor: pointer;
 }
 
 .control-btn:active {
@@ -175,10 +199,10 @@ button {
 }
 
 #btn-up {
-  transform: translate(-126px, -86px);
+  transform: translate(-125px, -88px);
 }
 #btn-salsa {
-  transform: translatex(373px);
+  margin-right: 10px;
 }
 
 #mobile-arrow-left {
@@ -203,19 +227,6 @@ button {
   transform: rotate(45deg);
 }
 
-@media only screen and (max-width: 720px) {
-  canvas {
-    width: 100%;
-  }
-
-  .canvas-and-gamescreens {
-    width: 100%;
-  }
-  .buttons {
-    gap: 5px;
-  }
-}
-
 @media only screen and (max-height: 480px) {
   canvas {
     height: 100vh;
@@ -227,11 +238,49 @@ button {
   h1 {
     display: none;
   }
+
+  h3 {
+    font-size: 24px;
+  }
+}
+
+/* Media query for larger mobile devices in normal orientation */
+@media only screen and (max-width: 950px) {
+  .canvas-and-gamescreens {
+    display: none;
+  }
+
+  #startButton {
+    display: none;
+  }
 }
 
 /* Media query for larger mobile devices in landscape orientation */
 @media only screen and (max-width: 950px) and (orientation: landscape) {
+  #startButton {
+    transform: translatey(-100px);
+    z-index: 50;
+  }
+
+  .canvas-and-gamescreens {
+    display: block;
+  }
+
+  #startButton {
+    display: block;
+  }
+
+  .buttons {
+    display: none;
+  }
+
   .mobile-controls {
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  canvas {
+    height: 100%;
+    width: 100%;
   }
 }

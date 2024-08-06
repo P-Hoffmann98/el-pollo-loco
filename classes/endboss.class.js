@@ -87,24 +87,18 @@ class Endboss extends MovableObject {
           }
         } else if (this.isHurt()) {
           this.playAnimation(this.IMAGES_HURT);
+        } else if (world.character.x > 4000) {
+          // get alerted when character comes too close
+          this.playAnimation(this.IMAGES_ALERT);
+        } else if (world.character.x > 4300) {
+          // attack if character gets even closer
+          this.playAnimation(this.IMAGES_ATTACK);
         }
-        // else if (this.world.character.x > 4000) { // get alerted when character comes too close
-        //   this.playAnimation(this.IMAGES_ALERT);
-        // }
-        //else if (this.world.character.x > 4300) { // attack if character gets even closer
-        //   this.playAnimation(this.IMAGES_ATTACK);
-        // }
-        // Move the chicken based on direction
-        // if (this.otherDirection) {
-        //   this.moveRight();
-        // } else {
-        //   this.moveLeft();
-        // }
 
-        // // Play walking animation
-        // this.playAnimation(this.IMAGES_WALKING);
+        // Play walking animation
+        this.playAnimation(this.IMAGES_WALKING);
       },
-      "BossInverval",
+      "BossInterval",
       1000 / 10
     );
   }

@@ -67,10 +67,6 @@ class Babychicken extends MovableObject {
       },
       "babyChickenAnimateInterval",
       1000 / 24
-    ); // 30 frames per second
-    // this.world.Intervals.push({
-    //   name: "babyChickenAnimateInterval",
-    //   id: babyChickenAnimateInterval,
-    // });
+    );
   }
 }

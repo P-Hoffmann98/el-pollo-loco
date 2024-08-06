@@ -54,63 +54,33 @@ window.addEventListener("keyup", (key) => {
   }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("btn-left").addEventListener("mousedown", () => {
-    keyboard.LEFT = true;
-  });
-  document.getElementById("btn-left").addEventListener("mouseup", () => {
-    keyboard.LEFT = false;
-  });
+// For touch devices
+document.getElementById("btn-left").addEventListener("touchstart", () => {
+  keyboard.LEFT = true;
+});
+document.getElementById("btn-left").addEventListener("touchend", () => {
+  keyboard.LEFT = false;
+});
 
-  document.getElementById("btn-right").addEventListener("mousedown", () => {
-    keyboard.RIGHT = true;
-  });
-  document.getElementById("btn-right").addEventListener("mouseup", () => {
-    keyboard.RIGHT = false;
-  });
+document.getElementById("btn-right").addEventListener("touchstart", () => {
+  keyboard.RIGHT = true;
+});
+document.getElementById("btn-right").addEventListener("touchend", () => {
+  keyboard.RIGHT = false;
+});
 
-  document.getElementById("btn-up").addEventListener("mousedown", () => {
-    keyboard.UP = true;
-  });
-  document.getElementById("btn-up").addEventListener("mouseup", () => {
-    keyboard.UP = false;
-  });
+document.getElementById("btn-up").addEventListener("touchstart", () => {
+  keyboard.UP = true;
+});
+document.getElementById("btn-up").addEventListener("touchend", () => {
+  keyboard.UP = false;
+});
 
-  document.getElementById("btn-salsa").addEventListener("mousedown", () => {
-    keyboard.D = true;
-  });
-  document.getElementById("btn-salsa").addEventListener("mouseup", () => {
-    keyboard.D = false;
-  });
-
-  // For touch devices
-  document.getElementById("btn-left").addEventListener("touchstart", () => {
-    keyboard.LEFT = true;
-  });
-  document.getElementById("btn-left").addEventListener("touchend", () => {
-    keyboard.LEFT = false;
-  });
-
-  document.getElementById("btn-right").addEventListener("touchstart", () => {
-    keyboard.RIGHT = true;
-  });
-  document.getElementById("btn-right").addEventListener("touchend", () => {
-    keyboard.RIGHT = false;
-  });
-
-  document.getElementById("btn-up").addEventListener("touchstart", () => {
-    keyboard.UP = true;
-  });
-  document.getElementById("btn-up").addEventListener("touchend", () => {
-    keyboard.UP = false;
-  });
-
-  document.getElementById("btn-salsa").addEventListener("touchstart", () => {
-    keyboard.D = true;
-  });
-  document.getElementById("btn-salsa").addEventListener("touchend", () => {
-    keyboard.D = false;
-  });
+document.getElementById("btn-salsa").addEventListener("touchstart", () => {
+  keyboard.D = true;
+});
+document.getElementById("btn-salsa").addEventListener("touchend", () => {
+  keyboard.D = false;
 });
 
 /**
@@ -159,6 +129,7 @@ function handleGameWin() {
   gameOverScreen.src = "img/other_imgs/score.png";
   gameOverScreen.style.display = "block";
   score.textContent = world.score;
+  muteAllSounds();
   win_sound.play();
   world.stopAllIntervals();
 }
@@ -178,6 +149,7 @@ function handleGameOver() {
     1,
     4
   )}.png`;
+  muteAllSounds();
   fail_sound.play();
   gameOverScreen.style.display = "block";
   setTimeout(() => {

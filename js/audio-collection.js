@@ -68,3 +68,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+// Function to mute all sounds
+function muteAllSounds() {
+  theme_sound.volume = 0;
+  walking_sound.volume = 0;
+  clucking_sound.volume = 0;
+  bottle_break_sound.volume = 0;
+  pepe_dmg_sound.volume = 0;
+  pepe_dead_sound.volume = 0;
+  pepe_snoring_sound.volume = 0;
+  jump_sound.volume = 0;
+}

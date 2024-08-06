@@ -179,6 +179,7 @@ class Character extends MovableObject {
         } else {
           if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
             this.playAnimation(this.IMAGES_WALKING);
+            pepe_snoring_sound.pause();
           }
         }
       },
