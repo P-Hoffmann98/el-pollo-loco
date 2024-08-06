@@ -13,24 +13,16 @@
 body {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   min-height: 100vh;
   margin: 0;
-  background-image: url("../img/5_background/desert.png");
+  background-image: url(../img/5_background/desert.png);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   font-family: "zabars", Arial, Helvetica, sans-serif;
   overflow: hidden;
-}
-
-.container {
-  display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  gap: 20px;
 }
 
 h1 {
@@ -105,7 +97,7 @@ button {
   position: fixed;
   bottom: 10px;
   justify-content: center;
-  width: 100%;
+  width: 97%;
 }
 
 #startButton {
@@ -227,6 +219,11 @@ button {
   transform: rotate(45deg);
 }
 
+#rotate {
+  height: 200px;
+  display: none;
+}
+
 @media only screen and (max-height: 480px) {
   canvas {
     height: 100vh;
@@ -245,13 +242,16 @@ button {
 }
 
 /* Media query for larger mobile devices in normal orientation */
-@media only screen and (max-width: 950px) {
+@media only screen and (max-width: 750px) {
   .canvas-and-gamescreens {
     display: none;
   }
 
   #startButton {
     display: none;
+  }
+  #rotate {
+    display: block;
   }
 }
 
@@ -282,5 +282,8 @@ button {
   canvas {
     height: 100%;
     width: 100%;
+  }
+  #rotate {
+    display: none;
   }
 }
