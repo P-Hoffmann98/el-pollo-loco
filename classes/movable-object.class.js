@@ -13,25 +13,35 @@ class MovableObject extends DrawableObject {
   level_end_x = 5000;
 
   /**
-   * Saves Intervals with ther Name and ID in an Array.
+   * Saves Intervals with their Name and ID in an Array.
    * @constructor
-   * @param {string} callback - What the Interval is filled with.
+   * @param {Function} callback - What the Interval is filled with.
    * @param {string} intervalName - The Name of the interval.
-   * @param {string} time - The repeat time for the interval.
+   * @param {number} time - The repeat time for the interval.
    */
   setStoppableInterval(callback, intervalName, time) {
     let intervalId = setInterval(callback, time);
-    this.intervals.push({ name: intervalName, id: intervalId });
+    let startTime = Date.now();
+    this.intervals.push({
+      name: intervalName,
+      id: intervalId,
+      callback: callback,
+      time: time,
+      startTime: startTime,
+      remaining: time,
+    });
   }
 
   /**
-   * Removes an Entity of the level.enemies array.
+   * Removes an Entity from the level.enemies array.
    * @constructor
-   * @param {string} entity - The enemy that needs to be spliced.
+   * @param {object} entity - The enemy that needs to be spliced.
    */
   removeEntity(entity) {
     let index = world.level.enemies.indexOf(entity);
-    world.level.enemies.splice(index, 1);
+    if (index > -1) {
+      world.level.enemies.splice(index, 1);
+    }
   }
 
   /**
@@ -48,7 +58,7 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * If somethings above the y of 135 its above the ground.
+   * Checks if the object is above the ground.
    * @constructor
    */
   isAboveGround() {
@@ -61,9 +71,9 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * Something is colliding if the outer borders of the hitbox touch.
+   * Checks if the object is colliding with another movable object.
    * @constructor
-   * @param {string} mo - Any movable object.
+   * @param {object} mo - Any movable object.
    */
   isColliding(mo) {
     return (
@@ -75,31 +85,31 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * Something is hit and gets damaged.
+   * Inflicts damage to the object.
    * @constructor
-   * @param {string} dmg - The amount of damage the entity gets.
+   * @param {number} dmg - The amount of damage the entity gets.
    */
   isHit(dmg) {
     this.health -= dmg;
     if (this.health < 0) {
       this.health = 0;
     } else {
-      this.lastHit = new Date().getTime();
+      this.lastHitTime = new Date().getTime();
     }
   }
 
   /**
-   * Something got hurt recently.
+   * Checks if the object got hurt recently.
    * @constructor
    */
   isHurt() {
-    let timepassed = new Date().getTime() - this.lastHit;
-    timepassed = timepassed / 1000;
-    return timepassed < 1;
+    let timePassed = new Date().getTime() - this.lastHitTime;
+    timePassed = timePassed / 1000;
+    return timePassed < 1;
   }
 
   /**
-   * Something died.
+   * Checks if the object is dead.
    * @constructor
    */
   isDead() {
@@ -107,9 +117,9 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * Showing a set of images in an order.
+   * Plays a set of images in order.
    * @constructor
-   * @param {string} images - The array of images.
+   * @param {string[]} images - The array of images.
    */
   playAnimation(images) {
     let i = this.currentImage % images.length;
@@ -119,7 +129,7 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * Moves something to the right.
+   * Moves the object to the right.
    * @constructor
    */
   moveRight() {
@@ -127,7 +137,7 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * Moves something to the left.
+   * Moves the object to the left.
    * @constructor
    */
   moveLeft() {

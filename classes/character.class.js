@@ -80,9 +80,10 @@ class Character extends MovableObject {
   lastMovement = Date.now(); // Initialize lastMovement
   deathHandled = 0;
 
-  constructor() {
+  constructor(world) {
     super().loadImage(this.IMAGES_WALKING[0]);
-    this.keyboard = new Keyboard();
+    this.world = world;
+    this.keyboard = world.keyboard;
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMPING);
     this.loadImages(this.IMAGES_DEAD);
@@ -179,7 +180,7 @@ class Character extends MovableObject {
         } else {
           if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
             this.playAnimation(this.IMAGES_WALKING);
-            pepe_snoring_sound.pause();
+            pepe_snoring_sound.pause(); // Ensure snoring sound is paused when walking
           }
         }
       },

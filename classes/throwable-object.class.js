@@ -24,13 +24,14 @@ class ThrowableObject extends MovableObject {
    */
   throw() {
     this.speedY = 10;
+    throwposition = this.x;
     this.applyGravity();
     // let throwInterval1 =
     setInterval(() => {
       if (!this.character.otherDirection) {
-        this.x += 15;
+        throwposition += 15;
       } else {
-        this.x -= 15;
+        throwposition -= 15;
       }
     }, 25);
     // this.Intervals.push({ name: "throwInterval1", id: throwInterval1 });

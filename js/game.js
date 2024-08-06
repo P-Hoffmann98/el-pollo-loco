@@ -54,33 +54,276 @@ window.addEventListener("keyup", (key) => {
   }
 });
 
-// For touch devices
-document.getElementById("btn-left").addEventListener("touchstart", () => {
-  keyboard.LEFT = true;
-});
-document.getElementById("btn-left").addEventListener("touchend", () => {
-  keyboard.LEFT = false;
-});
+function createNewLevel() {
+  return new Level(
+    [
+      new Endboss(),
+      new Chicken(),
+      new Chicken(),
+      new Chicken(),
+      new Chicken(),
+      new Chicken(),
+      new Chicken(),
+      new Chicken(),
+      new Chicken(),
+      new Chicken(),
+      new Chicken(),
+      new Babychicken(),
+      new Babychicken(),
+      new Babychicken(),
+      new Babychicken(),
+      new Babychicken(),
+    ],
+    [new Cloud()],
+    [
+      new BackgroundObject("img/5_background/layers/air.png", -719, 0),
+      new BackgroundObject(
+        "img/5_background/layers/3_third_layer/1.png",
+        -719,
+        0
+      ),
+      new BackgroundObject(
+        "img/5_background/layers/2_second_layer/1.png",
+        -719,
+        0
+      ),
+      new BackgroundObject(
+        "img/5_background/layers/1_first_layer/1.png",
+        -719,
+        0
+      ),
+      new BackgroundObject("img/5_background/layers/air.png", 0, 0),
+      new BackgroundObject("img/5_background/layers/3_third_layer/2.png", 0, 0),
+      new BackgroundObject(
+        "img/5_background/layers/2_second_layer/2.png",
+        0,
+        0
+      ),
+      new BackgroundObject("img/5_background/layers/1_first_layer/2.png", 0, 0),
+      new BackgroundObject("img/5_background/layers/air.png", 719, 0),
+      new BackgroundObject(
+        "img/5_background/layers/3_third_layer/1.png",
+        719,
+        0
+      ),
+      new BackgroundObject(
+        "img/5_background/layers/2_second_layer/1.png",
+        719,
+        0
+      ),
+      new BackgroundObject(
+        "img/5_background/layers/1_first_layer/1.png",
+        719,
+        0
+      ),
+      new BackgroundObject("img/5_background/layers/air.png", 719 * 2, 0),
+      new BackgroundObject(
+        "img/5_background/layers/3_third_layer/2.png",
+        719 * 2,
+        0
+      ),
+      new BackgroundObject(
+        "img/5_background/layers/2_second_layer/2.png",
+        719 * 2,
+        0
+      ),
+      new BackgroundObject(
+        "img/5_background/layers/1_first_layer/2.png",
+        719 * 2,
+        0
+      ),
+      new BackgroundObject("img/5_background/layers/air.png", 719 * 3, 0),
+      new BackgroundObject(
+        "img/5_background/layers/3_third_layer/1.png",
+        719 * 3,
+        0
+      ),
+      new BackgroundObject(
+        "img/5_background/layers/2_second_layer/1.png",
+        719 * 3,
+        0
+      ),
+      new BackgroundObject(
+        "img/5_background/layers/1_first_layer/1.png",
+        719 * 3,
+        0
+      ),
+      new BackgroundObject("img/5_background/layers/air.png", 719 * 4, 0),
+      new BackgroundObject(
+        "img/5_background/layers/3_third_layer/2.png",
+        719 * 4,
+        0
+      ),
+      new BackgroundObject(
+        "img/5_background/layers/2_second_layer/2.png",
+        719 * 4,
+        0
+      ),
+      new BackgroundObject(
+        "img/5_background/layers/1_first_layer/2.png",
+        719 * 4,
+        0
+      ),
+      new BackgroundObject("img/5_background/layers/air.png", 719 * 5, 0),
+      new BackgroundObject(
+        "img/5_background/layers/3_third_layer/1.png",
+        719 * 5,
+        0
+      ),
+      new BackgroundObject(
+        "img/5_background/layers/2_second_layer/1.png",
+        719 * 5,
+        0
+      ),
+      new BackgroundObject(
+        "img/5_background/layers/1_first_layer/1.png",
+        719 * 5,
+        0
+      ),
+      new BackgroundObject("img/5_background/layers/air.png", 719 * 6, 0),
+      new BackgroundObject(
+        "img/5_background/layers/3_third_layer/2.png",
+        719 * 6,
+        0
+      ),
+      new BackgroundObject(
+        "img/5_background/layers/2_second_layer/2.png",
+        719 * 6,
+        0
+      ),
+      new BackgroundObject(
+        "img/5_background/layers/1_first_layer/2.png",
+        719 * 6,
+        0
+      ),
+      new BackgroundObject("img/5_background/layers/air.png", 719 * 7, 0),
+      new BackgroundObject(
+        "img/5_background/layers/3_third_layer/1.png",
+        719 * 7,
+        0
+      ),
+      new BackgroundObject(
+        "img/5_background/layers/2_second_layer/1.png",
+        719 * 7,
+        0
+      ),
+      new BackgroundObject(
+        "img/5_background/layers/1_first_layer/1.png",
+        719 * 7,
+        0
+      ),
+      new BackgroundObject("img/5_background/layers/air.png", 719 * 8, 0),
+      new BackgroundObject(
+        "img/5_background/layers/3_third_layer/2.png",
+        719 * 8,
+        0
+      ),
+      new BackgroundObject(
+        "img/5_background/layers/2_second_layer/2.png",
+        719 * 8,
+        0
+      ),
+      new BackgroundObject(
+        "img/5_background/layers/1_first_layer/2.png",
+        719 * 8,
+        0
+      ),
+    ],
+    [
+      new SalsaBottle(),
+      new SalsaBottle(),
+      new SalsaBottle(),
+      new SalsaBottle(),
+      new SalsaBottle(),
+      new SalsaBottle(),
+      new SalsaBottle(),
+      new SalsaBottle(),
+      new SalsaBottle(),
+    ],
+    [new Coin(), new Coin(), new Coin(), new Coin(), new Coin()]
+  );
+}
 
-document.getElementById("btn-right").addEventListener("touchstart", () => {
-  keyboard.RIGHT = true;
-});
-document.getElementById("btn-right").addEventListener("touchend", () => {
-  keyboard.RIGHT = false;
-});
+function resetGame() {
+  // Clear the canvas
+  canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
 
-document.getElementById("btn-up").addEventListener("touchstart", () => {
-  keyboard.UP = true;
-});
-document.getElementById("btn-up").addEventListener("touchend", () => {
-  keyboard.UP = false;
-});
+  // Clear existing world
+  if (world) {
+    world.clear();
+  }
 
-document.getElementById("btn-salsa").addEventListener("touchstart", () => {
-  keyboard.D = true;
-});
-document.getElementById("btn-salsa").addEventListener("touchend", () => {
-  keyboard.D = false;
+  // Recreate the level
+  level1 = createNewLevel();
+
+  // Ensure spacing
+  level1.ensureChickenSpacing();
+  level1.ensureCoinSpacing();
+  level1.ensureSalsaBottleSpacing();
+
+  // Reinitialize the world and character
+  world = new World(canvas, keyboard, level1);
+
+  // Reset additional elements like score and gameover screen
+  document.getElementById("score").innerText = "";
+  document.getElementById("gameoverscreen").style.display = "none";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  // For touch devices
+  document
+    .getElementById("mobile-arrow-left")
+    .addEventListener("touchstart", () => {
+      keyboard.LEFT = true;
+    });
+  document
+    .getElementById("mobile-arrow-left")
+    .addEventListener("touchend", () => {
+      keyboard.LEFT = false;
+    });
+
+  document
+    .getElementById("mobile-arrow-right")
+    .addEventListener("touchstart", () => {
+      keyboard.RIGHT = true;
+    });
+  document
+    .getElementById("mobile-arrow-right")
+    .addEventListener("touchend", () => {
+      keyboard.RIGHT = false;
+    });
+
+  document
+    .getElementById("mobile-arrow-up")
+    .addEventListener("touchstart", () => {
+      keyboard.UP = true;
+    });
+  document
+    .getElementById("mobile-arrow-up")
+    .addEventListener("touchend", () => {
+      keyboard.UP = false;
+    });
+
+  document.getElementById("mobile-salsa").addEventListener("touchstart", () => {
+    keyboard.D = true;
+  });
+  document.getElementById("mobile-salsa").addEventListener("touchend", () => {
+    keyboard.D = false;
+  });
+
+  document.getElementById("restart-button").addEventListener("click", () => {
+    resetGame();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      if (world.isPaused) {
+        world.resume();
+      } else {
+        world.pause();
+      }
+    }
+  });
 });
 
 /**
@@ -89,10 +332,13 @@ document.getElementById("btn-salsa").addEventListener("touchend", () => {
  */
 function init() {
   canvas = document.getElementById("canvas");
-  world = null;
-  world = new World(canvas, keyboard);
-  console.log(world);
+  level1 = createNewLevel();
+  world = new World(canvas, keyboard, level1);
 }
+
+window.onload = () => {
+  init();
+};
 
 /**
  * Returns a random number in between the min and max.
@@ -128,7 +374,6 @@ function handleGameWin() {
   const score = document.getElementById("score");
   gameOverScreen.src = "img/other_imgs/score.png";
   gameOverScreen.style.display = "block";
-  score.textContent = world.score;
   muteAllSounds();
   win_sound.play();
   world.stopAllIntervals();
@@ -163,13 +408,11 @@ function addScore(score) {
   world.score += score;
 }
 
-// Pause all intervals
 function pauseGame() {
   world.pauseAllIntervals();
   console.log("Game paused");
 }
 
-// Resume all intervals
 function resumeGame() {
   world.resumeAllIntervals();
   console.log("Game resumed");
@@ -189,6 +432,7 @@ function enterFullscreen(element) {
     element.webkitRequestFullscreen();
   }
 }
+
 function exitFullscreen() {
   if (document.exitFullscreen) {
     document.exitFullscreen();
@@ -196,16 +440,3 @@ function exitFullscreen() {
     document.webkitExitFullscreen();
   }
 }
-
-// function handleMediaQueryChange(mediaQuery) {
-//   if (mediaQuery.matches) {
-//     enterFullscreen(document.getElementById("canvas-fullscreen"));
-//   } else {
-//     exitFullscreen(document.getElementById("canvas-fullscreen"));
-//   }
-// }
-// const mediaQuery = window.matchMedia(
-//   "(max-width: 950px) and (orientation: landscape)"
-// );
-// mediaQuery.addEventListener("change", (e) => handleMediaQueryChange(e));
-// handleMediaQueryChange(mediaQuery);

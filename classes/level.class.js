@@ -44,7 +44,7 @@ class Level {
         if (i !== j) {
           while (coin.isColliding(this.coins[j])) {
             coin.x = Math.random() * 4000 + 500;
-            coin.y = 320;
+            coin.y = 100;
           }
         }
       }

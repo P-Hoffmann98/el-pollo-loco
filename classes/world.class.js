@@ -1,5 +1,5 @@
 class World {
-  character = new Character(this);
+  character;
   level = level1;
   canvas;
   ctx;
@@ -10,10 +10,14 @@ class World {
   intervals = [];
   score = 0;
 
-  constructor(canvas, keyboard) {
+  isPaused = false;
+
+  constructor(canvas, keyboard, level) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
+    this.level = level; // Ensure the level is passed to the constructor
+    this.character = new Character(this); // Pass the World instance to the Character
     this.statusBar = [
       new Statusbar(
         [
@@ -78,6 +82,25 @@ class World {
       "runInterval",
       100
     );
+  }
+
+  // Method to pause the game
+  pause() {
+    if (!this.isPaused) {
+      console.log("Game paused");
+      this.isPaused = true;
+      this.stopAllIntervals();
+    }
+  }
+
+  // Method to resume the game
+  resume() {
+    if (this.isPaused) {
+      console.log("Game resumed");
+      this.isPaused = false;
+      this.resumeAllIntervals();
+      this.draw(); // Restart the drawing loop
+    }
   }
 
   /**
@@ -148,7 +171,6 @@ class World {
   resumeAllIntervals() {
     this.intervals.forEach((interval) => {
       setTimeout(() => {
-        interval.callback();
         interval.id = setInterval(interval.callback, interval.time);
         interval.startTime = Date.now();
       }, interval.remaining);
@@ -258,7 +280,7 @@ class World {
    * @constructor
    */
   clearCanvas() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
   /**
@@ -266,6 +288,7 @@ class World {
    * @constructor
    */
   draw() {
+    if (this.isPaused) return; // Do not draw if the game is paused
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.camera_x, 0);
     this.addObjects(this.level.backgroundObjects);
@@ -283,7 +306,7 @@ class World {
 
     this.ctx.translate(-this.camera_x, 0);
 
-    // Draw() wird hier durch so oft wie möglich neu aufgerufen
+    // Request the next frame
     let self = this;
     requestAnimationFrame(function () {
       self.draw();
@@ -369,5 +392,29 @@ class World {
       "playCluckingSoundInterval",
       20000
     ); // Plays clucking sound every 20 seconds
+  }
+
+  /**
+   * Clear method to reset the game state.
+   */
+  clear() {
+    // Stop all intervals
+    this.stopAllIntervals();
+
+    // Clear arrays
+    this.throwableObjects = [];
+    this.intervals = [];
+
+    // Clear level entities
+    this.level.enemies = [];
+    this.level.salsabottles = [];
+    this.level.coins = [];
+
+    // Reset character and status bars
+    this.character = new Character(this);
+    this.statusBar.forEach((bar) => bar.setPercentage(0));
+
+    // Clear the canvas
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 }
