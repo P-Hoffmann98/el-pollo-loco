@@ -1,7 +1,5 @@
 class ThrowableObject extends MovableObject {
-  throwposition;
-
-  IMAGES_THROWN = [
+    IMAGES_THROWN = [
     "img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
     "img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png",
     "img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png",
@@ -26,22 +24,14 @@ class ThrowableObject extends MovableObject {
    */
   throw() {
     this.speedY = 10;
-    this.throwposition = this.x;
     this.applyGravity();
-    // let throwInterval1 =
+    const direction = this.character.otherDirection ? -1 : 1;
     setInterval(() => {
-      if (!this.character.otherDirection) {
-        this.throwposition += 15;
-      } else {
-        this.throwposition -= 15;
-      }
+      this.x += 15 * direction;
     }, 25);
-    // this.Intervals.push({ name: "throwInterval1", id: throwInterval1 });
 
-    // let throwInterval2 =
     setInterval(() => {
       this.playAnimation(this.IMAGES_THROWN);
     }, 1000 / 30);
-    // this.Intervals.push({ name: "throwInterval2", id: throwInterval2 });
   }
 }

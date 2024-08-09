@@ -1,18 +1,16 @@
 class Character extends MovableObject {
   x = 0;
   y = 135;
-
   height = 300;
   width = 150;
-
   speed = 20;
-
   health = 100;
   lastHitTime = 0;
-
   coin_count = 0;
   salsaMeter = 0;
   dmg = 10;
+  lastMovement = Date.now();
+  deathHandled = 0;
 
   offset = {
     top: 120,
@@ -20,6 +18,9 @@ class Character extends MovableObject {
     left: 40,
     right: 40,
   };
+
+  level_start_x = -150; // Assuming this is a value you want to set
+  level_end_x = 5000; // Assuming this is a value you want to set
 
   IMAGES_WALKING = [
     "img/2_character_pepe/2_walk/W-21.png",
@@ -84,38 +85,39 @@ class Character extends MovableObject {
     "img/2_character_pepe/1_idle/long_idle/I-20.png",
   ];
 
-  lastMovement = Date.now(); // Initialize lastMovement
-  deathHandled = 0;
-
   constructor(world) {
     super().loadImage(this.IMAGES_WALKING[0]);
     this.world = world;
     this.keyboard = world.keyboard;
+    this.loadAllImages();
+    this.applyGravity();
+    this.animate();
+  }
+
+  /**
+   * Load all character images.
+   */
+  loadAllImages() {
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMPING);
     this.loadImages(this.IMAGES_DEAD);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_IDLE);
     this.loadImages(this.IMAGES_LONG_IDLE);
-    this.applyGravity();
-    this.animate();
   }
 
   /**
-   * Updates the Keyboard.
-   * @constructor
+   * Update the character based on keyboard input.
    */
   update() {
     if (!this.keyboard) {
-      console.error("Keyboard not initialized");
       return;
     }
   }
 
   /**
-   * Makes Character collect and count coins.
-   * @constructor
-   * @param {string} amount - The amount of salsa picked up.
+   * Makes Character collect and count salsa bottles.
+   * @param {number} amount - The amount of salsa picked up.
    */
   collectsSalsa(amount) {
     this.salsaMeter += amount;
@@ -123,8 +125,7 @@ class Character extends MovableObject {
 
   /**
    * Makes Character collect and count coins.
-   * @constructor
-   * @param {string} amount - The amount of coins picked up.
+   * @param {number} amount - The amount of coins picked up.
    */
   collectsCoins(amount) {
     this.coin_count += amount;
@@ -132,67 +133,109 @@ class Character extends MovableObject {
   }
 
   /**
-   * Animates loaded images.
-   * @constructor
+   * Animates character movement and actions.
    */
   animate() {
     this.setStoppableInterval(
-      () => {
-        walking_sound.pause();
-        if (this.world.keyboard.RIGHT && this.x < this.level_end_x) {
-          this.moveRight();
-          this.otherDirection = false;
-          this.lastMovement = Date.now(); // Update last movement time
-          if (!this.isAboveGround()) {
-            walking_sound.play();
-          }
-        }
-        if (this.world.keyboard.LEFT && this.x > this.level_start_x) {
-          this.moveLeft();
-          this.otherDirection = true;
-          this.lastMovement = Date.now(); // Update last movement time
-          if (!this.isAboveGround()) {
-            walking_sound.play();
-          }
-        }
-
-        if (this.world.keyboard.UP && !this.isAboveGround()) {
-          this.jump();
-          this.lastMovement = Date.now(); // Update last movement time
-        }
-        this.world.camera_x = -this.x + 150;
-      },
+      this.handleMovement.bind(this),
       "CharacterAnimateInterval1",
       1000 / 30
     );
-
     this.setStoppableInterval(
-      () => {
-        let currentTime = Date.now(); // Update current time inside the interval
-
-        if (this.isDead()) {
-          if (this.deathHandled < 7) {
-            this.playAnimation(this.IMAGES_DEAD);
-            this.deathHandled++;
-          }
-        } else if (this.isHurt()) {
-          this.playAnimation(this.IMAGES_HURT);
-        } else if (this.isAboveGround()) {
-          this.playAnimation(this.IMAGES_JUMPING);
-        } else if (currentTime - this.lastMovement > 5000) {
-          this.playAnimation(this.IMAGES_LONG_IDLE);
-          pepe_snoring_sound.play();
-        } else if (currentTime - this.lastMovement > 1000) {
-          this.playAnimation(this.IMAGES_IDLE);
-        } else {
-          if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-            this.playAnimation(this.IMAGES_WALKING);
-            pepe_snoring_sound.pause(); // Ensure snoring sound is paused when walking
-          }
-        }
-      },
-      "CharakterAnimateInterval2",
+      this.handleAnimations.bind(this),
+      "CharacterAnimateInterval2",
       1000 / 10
     );
+  }
+
+  /**
+   * Handle character movement based on keyboard input.
+   */
+  handleMovement() {
+    walking_sound.pause();
+    this.characterMoveRight();
+    this.characterMoveLeft();
+    this.characterMoveUp();
+    this.world.camera_x = -this.x + 150;
+  }
+
+  /**
+   * Handle character animations based on state.
+   */
+  handleAnimations() {
+    const currentTime = Date.now();
+
+    if (this.isDead()) {
+      this.handleDeath();
+    } else if (this.isHurt()) {
+      this.playAnimation(this.IMAGES_HURT);
+    } else if (this.isAboveGround()) {
+      this.playAnimation(this.IMAGES_JUMPING);
+    } else if (currentTime - this.lastMovement > 5000) {
+      this.playAnimation(this.IMAGES_LONG_IDLE);
+      pepe_snoring_sound.play();
+    } else if (currentTime - this.lastMovement > 1000) {
+      this.playAnimation(this.IMAGES_IDLE);
+    } else {
+      this.handleWalkingAnimation();
+    }
+  }
+
+  /**
+   * Handle death animation and actions.
+   */
+  handleDeath() {
+    if (this.deathHandled < 7) {
+      this.playAnimation(this.IMAGES_DEAD);
+      this.deathHandled++;
+    }
+  }
+
+  /**
+   * Handle walking animation.
+   */
+  handleWalkingAnimation() {
+    if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+      this.playAnimation(this.IMAGES_WALKING);
+      pepe_snoring_sound.pause(); // Ensure snoring sound is paused when walking
+    }
+  }
+
+  /**
+   * Move the character up if UP key is pressed.
+   */
+  characterMoveUp() {
+    if (this.world.keyboard.UP && !this.isAboveGround()) {
+      this.jump();
+      this.lastMovement = Date.now();
+    }
+  }
+
+  /**
+   * Move the character right if RIGHT key is pressed.
+   */
+  characterMoveRight() {
+    if (this.world.keyboard.RIGHT && this.x < this.level_end_x) {
+      this.moveRight();
+      this.otherDirection = false;
+      this.lastMovement = Date.now();
+      if (!this.isAboveGround()) {
+        walking_sound.play();
+      }
+    }
+  }
+
+  /**
+   * Move the character left if LEFT key is pressed.
+   */
+  characterMoveLeft() {
+    if (this.world.keyboard.LEFT && this.x > this.level_start_x) {
+      this.moveLeft();
+      this.otherDirection = true;
+      this.lastMovement = Date.now();
+      if (!this.isAboveGround()) {
+        walking_sound.play();
+      }
+    }
   }
 }

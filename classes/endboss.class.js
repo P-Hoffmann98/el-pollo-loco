@@ -6,7 +6,6 @@ class Endboss extends MovableObject {
 
   health = 500;
   dmg = 100;
-
   speed = 1;
 
   offset = {
@@ -15,6 +14,10 @@ class Endboss extends MovableObject {
     left: 100,
     right: 100,
   };
+
+  otherDirection = false;
+  deathHandled = 0;
+  deathActionsDone = false;
 
   IMAGES_WALKING = [
     "img/4_enemie_boss_chicken/1_walk/G1.png",
@@ -50,59 +53,90 @@ class Endboss extends MovableObject {
     "img/4_enemie_boss_chicken/4_hurt/G22.png",
     "img/4_enemie_boss_chicken/4_hurt/G23.png",
   ];
+
   IMAGES_DEAD = [
     "img/4_enemie_boss_chicken/5_dead/G24.png",
     "img/4_enemie_boss_chicken/5_dead/G25.png",
     "img/4_enemie_boss_chicken/5_dead/G26.png",
   ];
 
-  otherDirection = false;
-  deathHandled = 0;
-  deathActionsDone = false; // Flag to ensure actions are done only once
-
   constructor() {
     super();
+    this.loadInitialImage();
+    this.loadAllImages();
+    this.animate();
+  }
+
+  /**
+   * Loads the initial image of the Endboss.
+   */
+  loadInitialImage() {
     this.loadImage(this.IMAGES_WALKING[0]);
+  }
+
+  /**
+   * Loads all images for the Endboss.
+   */
+  loadAllImages() {
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_ALERT);
     this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
-    this.animate();
   }
 
   /**
-   * Animates loaded images and removes Endboss if dead.
-   * @constructor
+   * Animates the Endboss and handles different states.
    */
   animate() {
     this.setStoppableInterval(
-      () => {
-        if (this.isDead()) {
-          if (this.deathHandled < 5) {
-            this.playAnimation(this.IMAGES_DEAD);
-            this.deathHandled++;
-          } else if (!this.deathActionsDone) {
-            this.deathActionsDone = true;
-            setTimeout(() => {
-              console.log("chicken dead");
-              addScore(500);
-              handleGameWin();
-            }, 500);
-          }
-        } else if (this.isHurt()) {
-          this.playAnimation(this.IMAGES_HURT);
-          // } else if (this.x + this.character.x < 500) {
-          //   this.playAnimation(this.IMAGES_ALERT);
-          // playCluckingSound();
-          // } else if (this.x + this.character.x < 200) {
-          //   this.playAnimation(this.IMAGES_ATTACK);
-        }
-        this.playAnimation(this.IMAGES_WALKING);
-        this.moveLeft();
-      },
+      this.handleAnimation.bind(this),
       "BossInterval",
       1000 / 10
     );
+  }
+
+  /**
+   * Handles the animation logic based on the Endboss's state.
+   */
+  handleAnimation() {
+    if (this.isDead()) {
+      this.handleDeath();
+    } else if (this.isHurt()) {
+      this.playAnimation(this.IMAGES_HURT);
+    } else {
+      // this.handleEndbossActions();
+      this.playAnimation(this.IMAGES_WALKING);
+      this.moveLeft();
+    }
+  }
+
+  /**
+   * Handles the Endboss's actions, playing ALERT or ATTACK animations when the character is in range.
+   */
+  // handleEndbossActions() {
+  //   const distanceToCharacter = this.x - this.world.character.x;
+
+  //   if (distanceToCharacter < 500 && distanceToCharacter > 200) {
+  //     this.playAnimation(this.IMAGES_ALERT);
+  //   } else if (distanceToCharacter <= 200) {
+  //     this.playAnimation(this.IMAGES_ATTACK);
+  //   }
+  // }
+
+  /**
+   * Handles the death animation and actions for the Endboss.
+   */
+  handleDeath() {
+    if (this.deathHandled < 5) {
+      this.playAnimation(this.IMAGES_DEAD);
+      this.deathHandled++;
+    } else if (!this.deathActionsDone) {
+      this.deathActionsDone = true;
+      setTimeout(() => {
+        addScore(500);
+        handleGameWin();
+      }, 500);
+    }
   }
 }

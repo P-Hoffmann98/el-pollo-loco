@@ -1,14 +1,13 @@
 class Chicken extends MovableObject {
   x = Math.random() * 4000 + 200;
   y = 320;
-
   height = 120;
   width = 100;
-
   speed = 1 + Math.random() * 1;
-
   health = 20;
   dmg = 20;
+  otherDirection = false;
+  deathHandled = false;
 
   offset = {
     top: 0,
@@ -26,56 +25,69 @@ class Chicken extends MovableObject {
 
   IMAGES_DEAD = ["img/3_enemies_chicken/chicken_normal/2_dead/dead.png"];
 
-  otherDirection = false;
-  deathHandled = false;
-
   constructor() {
     super().loadImage(this.IMAGES_WALKING[0]);
-    this.loadImages(this.IMAGES_WALKING);
-    this.loadImages(this.IMAGES_DEAD);
+    this.loadAllImages();
     this.animate();
   }
 
   /**
-   * Animates loaded images.
-   * @constructor
+   * Load all chicken images.
+   */
+  loadAllImages() {
+    this.loadImages(this.IMAGES_WALKING);
+    this.loadImages(this.IMAGES_DEAD);
+  }
+
+  /**
+   * Animates the chicken, handling movement and death.
    */
   animate() {
     this.setStoppableInterval(
-      () => {
-        if (this.isDead()) {
-          if (!this.deathHandled) {
-            this.playAnimation(this.IMAGES_DEAD);
-            this.deathHandled = true; // Mark animation as handled
-
-            // Remove chicken after 0.5 seconds
-            setTimeout(() => {
-              console.log("chicken dead");
-              this.removeEntity(this);
-              addScore(100);
-            }, 500);
-          }
-        } else {
-          // Update direction based on boundaries
-          if (this.x >= this.level_end_x) {
-            this.otherDirection = false; // Change direction at end of level
-          } else if (this.x <= this.level_start_x + 500) {
-            this.otherDirection = true; // Change direction at start of level
-          }
-
-          // Move the chicken based on direction
-          if (this.otherDirection) {
-            this.moveRight();
-          } else {
-            this.moveLeft();
-          }
-
-          // Play walking animation
-          this.playAnimation(this.IMAGES_WALKING);
-        }
-      },
+      this.handleAnimation.bind(this),
       "ChickenInterval",
       1000 / 24
-    ); // 30 frames per second
+    );
+  }
+
+  /**
+   * Handles the animation and movement logic for the chicken.
+   */
+  handleAnimation() {
+    if (this.isDead()) {
+      this.handleDeath();
+    } else {
+      this.handleMovement();
+      this.playAnimation(this.IMAGES_WALKING);
+    }
+  }
+
+  /**
+   * Handles the death animation and removal of the chicken.
+   */
+  handleDeath() {
+    if (!this.deathHandled) {
+      this.playAnimation(this.IMAGES_DEAD);
+      this.deathHandled = true;
+
+      // Remove chicken after 0.5 seconds and add score
+      setTimeout(() => {
+        this.removeEntity(this);
+        addScore(100);
+      }, 500);
+    }
+  }
+
+  /**
+   * Handles the movement logic based on boundaries and direction.
+   */
+  handleMovement() {
+    if (this.x >= this.level_end_x) {
+      this.otherDirection = false; // Change direction at end of level
+    } else if (this.x <= this.level_start_x + 500) {
+      this.otherDirection = true; // Change direction at start of level
+    }
+
+    this.otherDirection ? this.moveRight() : this.moveLeft();
   }
 }

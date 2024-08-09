@@ -1,10 +1,4 @@
 class Level {
-  enemies;
-  clouds;
-  backgroundObjects;
-  salsabottles;
-  coins;
-
   constructor(enemies, clouds, backgroundObjects, salsabottles, coins) {
     this.enemies = enemies;
     this.clouds = clouds;
@@ -14,55 +8,50 @@ class Level {
   }
 
   /**
-   * Makes sure Chickens spawn spread evenly.
-   * @constructor
+   * Ensures that all entities in a given array are spaced out properly.
+   * @param {Array} entities - The array of entities to space out.
+   * @param {Function} isValidEntity - A function to validate the type of entity.
+   * @param {number} xMin - The minimum x-coordinate for positioning.
+   * @param {number} yPosition - The fixed y-coordinate for the entities.
    */
-  ensureChickenSpacing() {
-    for (let i = 0; i < this.enemies.length; i++) {
-      if (this.enemies[i] instanceof Chicken) {
-        let chicken = this.enemies[i];
-        for (let j = 0; j < this.enemies.length; j++) {
-          if (i !== j && this.enemies[j] instanceof Chicken) {
-            while (chicken.isColliding(this.enemies[j])) {
-              chicken.x = Math.random() * 4000 + 200;
-              chicken.y = 320;
+  ensureEntitySpacing(entities, isValidEntity, xMin, yPosition) {
+    entities.forEach((entity, i) => {
+      if (isValidEntity(entity)) {
+        entities.forEach((otherEntity, j) => {
+          if (i !== j && isValidEntity(otherEntity)) {
+            while (entity.isColliding(otherEntity)) {
+              entity.x = Math.random() * 4000 + xMin;
+              entity.y = yPosition;
             }
           }
-        }
+        });
       }
-    }
+    });
+  }
+
+  /**
+   * Makes sure Chickens spawn spread evenly.
+   */
+  ensureChickenSpacing() {
+    this.ensureEntitySpacing(
+      this.enemies,
+      (entity) => entity instanceof Chicken,
+      200,
+      320
+    );
   }
 
   /**
    * Makes sure Coins spawn spread evenly.
-   * @constructor
    */
   ensureCoinSpacing() {
-    for (let i = 0; i < this.coins.length; i++) {
-      let coin = this.coins[i];
-      for (let j = 0; j < this.coins.length; j++) {
-        if (i !== j) {
-          while (coin.isColliding(this.coins[j])) {
-            coin.x = Math.random() * 4000 + 500;
-            coin.y = 100;
-          }
-        }
-      }
-    }
+    this.ensureEntitySpacing(this.coins, () => true, 500, 100);
   }
 
-  // Spread the Salsa Bottles
+  /**
+   * Makes sure Salsa Bottles spawn spread evenly.
+   */
   ensureSalsaBottleSpacing() {
-    for (let i = 0; i < this.salsabottles.length; i++) {
-      let bottle = this.salsabottles[i];
-      for (let j = 0; j < this.salsabottles.length; j++) {
-        if (i !== j) {
-          while (bottle.isColliding(this.salsabottles[j])) {
-            bottle.x = Math.random() * 4000 + 500;
-            bottle.y = 320;
-          }
-        }
-      }
-    }
+    this.ensureEntitySpacing(this.salsabottles, () => true, 500, 320);
   }
 }

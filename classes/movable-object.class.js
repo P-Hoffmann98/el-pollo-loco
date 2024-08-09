@@ -7,7 +7,7 @@ class MovableObject extends DrawableObject {
   health;
   dmg;
   lastHitTime;
-  hitCooldown = 500; // CD period in MS 0.5
+  hitCooldown = 500; // Cooldown period in milliseconds (0.5 seconds)
 
   level_start_x = -150;
   level_end_x = 5000;
@@ -20,15 +20,14 @@ class MovableObject extends DrawableObject {
   };
 
   /**
-   * Saves Intervals with their Name and ID in an Array.
-   * @constructor
-   * @param {Function} callback - What the Interval is filled with.
-   * @param {string} intervalName - The Name of the interval.
-   * @param {number} time - The repeat time for the interval.
+   * Sets an interval and stores it in the intervals array, allowing it to be stopped later.
+   * @param {Function} callback - The function to execute repeatedly.
+   * @param {string} intervalName - The name of the interval.
+   * @param {number} time - The repeat time for the interval in milliseconds.
    */
   setStoppableInterval(callback, intervalName, time) {
-    let intervalId = setInterval(callback, time);
-    let startTime = Date.now();
+    const intervalId = setInterval(callback, time);
+    const startTime = Date.now();
     this.intervals.push({
       name: intervalName,
       id: intervalId,
@@ -40,47 +39,44 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * Removes an Entity from the level.enemies array.
-   * @constructor
-   * @param {object} entity - The enemy that needs to be spliced.
+   * Removes an entity from the world's enemies array.
+   * @param {object} entity - The enemy entity to remove.
    */
   removeEntity(entity) {
-    let index = world.level.enemies.indexOf(entity);
+    const index = world.level.enemies.indexOf(entity);
     if (index > -1) {
       world.level.enemies.splice(index, 1);
     }
   }
 
   /**
-   * Applies Gravity.
-   * @constructor
+   * Applies gravity to the object, affecting its vertical position.
    */
   applyGravity() {
-    setInterval(() => {
-      if (this.isAboveGround() || this.speedY > 0) {
-        this.y -= this.speedY;
-        this.speedY -= this.gravitation;
-      }
-    }, 1000 / 25);
+    this.setStoppableInterval(
+      () => {
+        if (this.isAboveGround() || this.speedY > 0) {
+          this.y -= this.speedY;
+          this.speedY -= this.gravitation;
+        }
+      },
+      "GravityInterval",
+      1000 / 25
+    );
   }
 
   /**
    * Checks if the object is above the ground.
-   * @constructor
+   * @returns {boolean} True if the object is above ground, false otherwise.
    */
   isAboveGround() {
-    if (this instanceof ThrowableObject) {
-      //Throwable Objects just fall forever
-      return true;
-    } else {
-      return this.y < 135;
-    }
+    return this instanceof ThrowableObject || this.y < 135;
   }
 
   /**
-   * Checks if the object is colliding with another movable object.
-   * @constructor
-   * @param {object} mo - Any movable object.
+   * Checks if this object is colliding with another movable object.
+   * @param {object} mo - The other movable object.
+   * @returns {boolean} True if the objects are colliding, false otherwise.
    */
   isColliding(mo) {
     return (
@@ -92,52 +88,48 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * Inflicts damage to the object.
-   * @constructor
-   * @param {number} dmg - The amount of damage the entity gets.
+   * Inflicts damage on this object.
+   * @param {number} dmg - The amount of damage to apply.
    */
   isHit(dmg) {
     this.health -= dmg;
     if (this.health < 0) {
       this.health = 0;
     } else {
-      this.lastHitTime = new Date().getTime();
+      this.lastHitTime = Date.now();
     }
   }
 
   /**
-   * Checks if the object got hurt recently.
-   * @constructor
+   * Checks if this object was recently hurt.
+   * @returns {boolean} True if the object was hurt within the last second, false otherwise.
    */
   isHurt() {
-    let timePassed = new Date().getTime() - this.lastHitTime;
-    timePassed = timePassed / 1000;
+    const timePassed = (Date.now() - this.lastHitTime) / 1000;
     return timePassed < 1;
   }
 
   /**
-   * Checks if the object is dead.
-   * @constructor
+   * Checks if this object is dead.
+   * @returns {boolean} True if the object's health is 0, false otherwise.
    */
   isDead() {
-    return this.health == 0;
+    return this.health === 0;
   }
 
   /**
-   * Plays a set of images in order.
-   * @constructor
-   * @param {string[]} images - The array of images.
+   * Plays an animation by cycling through a set of images.
+   * @param {string[]} images - An array of image paths to cycle through.
    */
   playAnimation(images) {
-    let i = this.currentImage % images.length;
-    let path = images[i];
+    const i = this.currentImage % images.length;
+    const path = images[i];
     this.img = this.imageCache[path];
     this.currentImage++;
   }
 
   /**
    * Moves the object to the right.
-   * @constructor
    */
   moveRight() {
     this.x += this.speed;
@@ -145,15 +137,13 @@ class MovableObject extends DrawableObject {
 
   /**
    * Moves the object to the left.
-   * @constructor
    */
   moveLeft() {
     this.x -= this.speed;
   }
 
   /**
-   * Makes the character jump.
-   * @constructor
+   * Makes the object jump by setting its vertical speed.
    */
   jump() {
     this.speedY = 25;

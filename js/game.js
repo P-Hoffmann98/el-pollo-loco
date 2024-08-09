@@ -360,7 +360,6 @@ function checkCharacterDead() {
   if (!characterdead) {
     if (world.character && world.character.isDead()) {
       pepe_dead_sound.play();
-      console.log("Character has died");
       handleGameOver();
       characterdead = true;
     }
@@ -368,12 +367,11 @@ function checkCharacterDead() {
 }
 
 function handleGameWin() {
-  console.log("Your Score:", world.score);
-
   const gameOverScreen = document.getElementById("gameoverscreen");
   const score = document.getElementById("score");
   gameOverScreen.src = "img/other_imgs/score.png";
   gameOverScreen.style.display = "block";
+  score.innerHTML = `${world.score}`;
   muteAllSounds();
   win_sound.play();
   world.stopAllIntervals();
@@ -384,8 +382,6 @@ function handleGameWin() {
  * @constructor
  */
 function handleGameOver() {
-  console.log("Your Score:", world.score);
-
   const gameOverScreen = document.getElementById("gameoverscreen");
   world.level.enemies.splice(0, world.level.enemies.length);
   world.level.salsabottles.splice(0, world.level.salsabottles.length);
@@ -406,16 +402,6 @@ function handleGameOver() {
 
 function addScore(score) {
   world.score += score;
-}
-
-function pauseGame() {
-  world.pauseAllIntervals();
-  console.log("Game paused");
-}
-
-function resumeGame() {
-  world.resumeAllIntervals();
-  console.log("Game resumed");
 }
 
 function fullscreen() {
@@ -439,4 +425,16 @@ function exitFullscreen() {
   } else if (document.webkitExitFullscreen) {
     document.webkitExitFullscreen();
   }
+}
+
+function pause() {
+  world.pauseGame();
+  document.getElementById("pause-img").src = "img/other_imgs/resume.png";
+  document.getElementById("pause-button").onclick = resume;
+}
+
+function resume() {
+  world.resumeGame();
+  document.getElementById("pause-img").src = "img/other_imgs/pause.png";
+  document.getElementById("pause-button").onclick = pause;
 }
