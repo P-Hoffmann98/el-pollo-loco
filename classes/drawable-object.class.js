@@ -37,9 +37,9 @@ class DrawableObject {
       this instanceof Endboss
     ) {
       ctx.beginPath();
-      // ctx.lineWidth = "5";  //Shows Hitboxes
-      // ctx.strokeStyle = "blue";
-      // ctx.rect(this.x, this.y, this.width, this.height);
+      ctx.lineWidth = "5"; //Shows Hitboxes
+      ctx.strokeStyle = "blue";
+      ctx.rect(this.x, this.y, this.width, this.height);
       ctx.stroke();
     }
   }

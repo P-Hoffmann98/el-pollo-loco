@@ -14,6 +14,13 @@ class Character extends MovableObject {
   salsaMeter = 0;
   dmg = 10;
 
+  offset = {
+    top: 120,
+    bottom: 0,
+    left: 40,
+    right: 40,
+  };
+
   IMAGES_WALKING = [
     "img/2_character_pepe/2_walk/W-21.png",
     "img/2_character_pepe/2_walk/W-22.png",
