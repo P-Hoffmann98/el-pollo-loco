@@ -12,8 +12,8 @@ class Endboss extends MovableObject {
   offset = {
     top: 0,
     bottom: 0,
-    left: 0,
-    right: 0,
+    left: 100,
+    right: 100,
   };
 
   IMAGES_WALKING = [
@@ -80,11 +80,9 @@ class Endboss extends MovableObject {
       () => {
         if (this.isDead()) {
           if (this.deathHandled < 5) {
-            // Play the death animation 5 times
             this.playAnimation(this.IMAGES_DEAD);
-            this.deathHandled++; // Count the animated imgs
+            this.deathHandled++;
           } else if (!this.deathActionsDone) {
-            // Ensure actions are done only once
             this.deathActionsDone = true;
             setTimeout(() => {
               console.log("chicken dead");
@@ -94,17 +92,14 @@ class Endboss extends MovableObject {
           }
         } else if (this.isHurt()) {
           this.playAnimation(this.IMAGES_HURT);
+          // } else if (this.x + this.character.x < 500) {
+          //   this.playAnimation(this.IMAGES_ALERT);
+          // playCluckingSound();
+          // } else if (this.x + this.character.x < 200) {
+          //   this.playAnimation(this.IMAGES_ATTACK);
         }
-        // else if (world.character.x > 4000) {
-        //   // get alerted when character comes too close
-        //   this.playAnimation(this.IMAGES_ALERT);
-        // } else if (world.character.x > 4300) {
-        //   // attack if character gets even closer
-        //   this.playAnimation(this.IMAGES_ATTACK);
-        // }
-
-        // Play walking animation
-        //  this.playAnimation(this.IMAGES_WALKING);
+        this.playAnimation(this.IMAGES_WALKING);
+        this.moveLeft();
       },
       "BossInterval",
       1000 / 10

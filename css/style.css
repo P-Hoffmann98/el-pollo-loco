@@ -73,7 +73,7 @@ canvas {
   display: block;
 }
 
-.pause-btn {
+.fullscreen-pause {
   position: absolute;
   right: 5px;
   background: none;
@@ -81,11 +81,15 @@ canvas {
   padding: 0;
   cursor: pointer;
   z-index: 4;
-  transform: translateY(-188px);
+  transform: translateY(-195px);
 }
 
-.pause-btn img {
-  height: 64px;
+.fullscreen-pause img {
+  height: 48px;
+}
+
+#fullscreen {
+  transform: translate(-75px, -195px);
 }
 
 .gameoverscreen {

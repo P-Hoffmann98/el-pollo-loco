@@ -17,7 +17,7 @@ class World {
     this.canvas = canvas;
     this.keyboard = keyboard;
     this.level = level; // Ensure the level is passed to the constructor
-    this.character = new Character(this); // Pass the World instance to the Character
+    this.character = new Character(this); // Pass the World instance to the Character,
     this.statusBar = [
       new Statusbar(
         [
@@ -61,7 +61,6 @@ class World {
     this.setWorld();
     this.run();
     this.playThemeSound();
-    this.playCluckingSound();
     this.mergeIntervalArrays();
   }
 
@@ -78,6 +77,7 @@ class World {
         this.checkNewThrowedObjects();
         this.checkThrowedObjectsCollision();
         checkCharacterDead();
+        console.log(this.character.x);
       },
       "runInterval",
       100
@@ -227,7 +227,6 @@ class World {
         this.character.lastHitTime = currentTime;
         this.character.jump();
         enemy.isHit(10);
-        console.log("Trigger Collision");
       } else if (this.character.isColliding(enemy)) {
         if (
           currentTime - this.character.lastHitTime >
@@ -390,8 +389,8 @@ class World {
         clucking_sound.play();
       },
       "playCluckingSoundInterval",
-      20000
-    ); // Plays clucking sound every 20 seconds
+      10000
+    ); // Plays clucking sound every 10 seconds
   }
 
   /**

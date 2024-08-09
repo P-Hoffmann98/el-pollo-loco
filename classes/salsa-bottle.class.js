@@ -9,8 +9,8 @@ class SalsaBottle extends MovableObject {
   offset = {
     top: 0,
     bottom: 0,
-    left: 0,
-    right: 0,
+    left: 100,
+    right: 100,
   };
 
   IMAGES_BOTTLE = [

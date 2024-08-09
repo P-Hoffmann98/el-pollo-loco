@@ -10,7 +10,7 @@ let win_sound = new Audio("audio/win.mp3");
 let jump_sound = new Audio("audio/jump.mp3");
 
 theme_sound.volume = 0.1;
-clucking_sound.volume = 0.02;
+clucking_sound.volume = 0.05;
 win_sound.volume = 0.5;
 fail_sound.volume = 0.1;
 bottle_break_sound.volume = 0.01;
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isSoundOn) {
       soundToggleButton.textContent = "Turn Sound Off";
       walking_sound.volume = 1; // Restore volume to the desired level
-      clucking_sound.volume = 0.02;
+      clucking_sound.volume = 0.05;
       bottle_break_sound.volume = 0.01;
       jump_sound.volume = 0.6;
       pepe_dead_sound.volume = 0.5;
