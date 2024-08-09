@@ -80,3 +80,16 @@ function muteAllSounds() {
   pepe_snoring_sound.volume = 0;
   jump_sound.volume = 0;
 }
+
+// Function to unmute all sounds
+function unmuteAllSounds() {
+  theme_sound.volume = 0.1;
+  clucking_sound.volume = 0.05;
+  win_sound.volume = 0.5;
+  fail_sound.volume = 0.1;
+  bottle_break_sound.volume = 0.01;
+  jump_sound.volume = 0.6;
+  pepe_dead_sound.volume = 0.5;
+  pepe_dmg_sound.volume = 0.5;
+  pepe_snoring_sound.volume = 0.2;
+}

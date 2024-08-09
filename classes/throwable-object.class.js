@@ -1,5 +1,5 @@
 class ThrowableObject extends MovableObject {
-    IMAGES_THROWN = [
+  IMAGES_THROWN = [
     "img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
     "img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png",
     "img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png",

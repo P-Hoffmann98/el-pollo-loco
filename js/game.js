@@ -2,370 +2,159 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 
-let endbossdead = false;
-let characterdead = false;
+let endbossDead = false;
+let characterDead = false;
 
-let IMAGES_GAME_OVER = [
+const IMAGES_GAME_OVER = [
   "img/9_intro_outro_screens/game_over/1.png",
   "img/9_intro_outro_screens/game_over/2.png",
   "img/9_intro_outro_screens/game_over/3.png",
   "img/9_intro_outro_screens/game_over/4.png",
 ];
 
-window.addEventListener("keydown", (key) => {
-  if (key.keyCode == 40) {
-    keyboard.DOWN = true;
-  }
-  if (key.keyCode == 39) {
-    keyboard.RIGHT = true;
-  }
-  if (key.keyCode == 38) {
-    keyboard.UP = true;
-  }
-  if (key.keyCode == 37) {
-    keyboard.LEFT = true;
-  }
-  if (key.keyCode == 32) {
-    keyboard.SPACE = true;
-  }
-  if (key.keyCode == 68) {
-    keyboard.D = true;
-  }
-});
+window.addEventListener("keydown", handleKeyDown);
+window.addEventListener("keyup", handleKeyUp);
 
-window.addEventListener("keyup", (key) => {
-  if (key.keyCode == 40) {
-    keyboard.DOWN = false;
-  }
-  if (key.keyCode == 39) {
-    keyboard.RIGHT = false;
-  }
-  if (key.keyCode == 38) {
-    keyboard.UP = false;
-  }
-  if (key.keyCode == 37) {
-    keyboard.LEFT = false;
-  }
-  if (key.keyCode == 32) {
-    keyboard.SPACE = false;
-  }
-  if (key.keyCode == 68) {
-    keyboard.D = false;
-  }
-});
+document.addEventListener("DOMContentLoaded", setupEventListeners);
 
-function createNewLevel() {
-  return new Level(
-    [
-      new Endboss(),
-      new Chicken(),
-      new Chicken(),
-      new Chicken(),
-      new Chicken(),
-      new Chicken(),
-      new Chicken(),
-      new Chicken(),
-      new Chicken(),
-      new Chicken(),
-      new Chicken(),
-      new Babychicken(),
-      new Babychicken(),
-      new Babychicken(),
-      new Babychicken(),
-      new Babychicken(),
-    ],
-    [new Cloud()],
-    [
-      new BackgroundObject("img/5_background/layers/air.png", -719, 0),
-      new BackgroundObject(
-        "img/5_background/layers/3_third_layer/1.png",
-        -719,
-        0
-      ),
-      new BackgroundObject(
-        "img/5_background/layers/2_second_layer/1.png",
-        -719,
-        0
-      ),
-      new BackgroundObject(
-        "img/5_background/layers/1_first_layer/1.png",
-        -719,
-        0
-      ),
-      new BackgroundObject("img/5_background/layers/air.png", 0, 0),
-      new BackgroundObject("img/5_background/layers/3_third_layer/2.png", 0, 0),
-      new BackgroundObject(
-        "img/5_background/layers/2_second_layer/2.png",
-        0,
-        0
-      ),
-      new BackgroundObject("img/5_background/layers/1_first_layer/2.png", 0, 0),
-      new BackgroundObject("img/5_background/layers/air.png", 719, 0),
-      new BackgroundObject(
-        "img/5_background/layers/3_third_layer/1.png",
-        719,
-        0
-      ),
-      new BackgroundObject(
-        "img/5_background/layers/2_second_layer/1.png",
-        719,
-        0
-      ),
-      new BackgroundObject(
-        "img/5_background/layers/1_first_layer/1.png",
-        719,
-        0
-      ),
-      new BackgroundObject("img/5_background/layers/air.png", 719 * 2, 0),
-      new BackgroundObject(
-        "img/5_background/layers/3_third_layer/2.png",
-        719 * 2,
-        0
-      ),
-      new BackgroundObject(
-        "img/5_background/layers/2_second_layer/2.png",
-        719 * 2,
-        0
-      ),
-      new BackgroundObject(
-        "img/5_background/layers/1_first_layer/2.png",
-        719 * 2,
-        0
-      ),
-      new BackgroundObject("img/5_background/layers/air.png", 719 * 3, 0),
-      new BackgroundObject(
-        "img/5_background/layers/3_third_layer/1.png",
-        719 * 3,
-        0
-      ),
-      new BackgroundObject(
-        "img/5_background/layers/2_second_layer/1.png",
-        719 * 3,
-        0
-      ),
-      new BackgroundObject(
-        "img/5_background/layers/1_first_layer/1.png",
-        719 * 3,
-        0
-      ),
-      new BackgroundObject("img/5_background/layers/air.png", 719 * 4, 0),
-      new BackgroundObject(
-        "img/5_background/layers/3_third_layer/2.png",
-        719 * 4,
-        0
-      ),
-      new BackgroundObject(
-        "img/5_background/layers/2_second_layer/2.png",
-        719 * 4,
-        0
-      ),
-      new BackgroundObject(
-        "img/5_background/layers/1_first_layer/2.png",
-        719 * 4,
-        0
-      ),
-      new BackgroundObject("img/5_background/layers/air.png", 719 * 5, 0),
-      new BackgroundObject(
-        "img/5_background/layers/3_third_layer/1.png",
-        719 * 5,
-        0
-      ),
-      new BackgroundObject(
-        "img/5_background/layers/2_second_layer/1.png",
-        719 * 5,
-        0
-      ),
-      new BackgroundObject(
-        "img/5_background/layers/1_first_layer/1.png",
-        719 * 5,
-        0
-      ),
-      new BackgroundObject("img/5_background/layers/air.png", 719 * 6, 0),
-      new BackgroundObject(
-        "img/5_background/layers/3_third_layer/2.png",
-        719 * 6,
-        0
-      ),
-      new BackgroundObject(
-        "img/5_background/layers/2_second_layer/2.png",
-        719 * 6,
-        0
-      ),
-      new BackgroundObject(
-        "img/5_background/layers/1_first_layer/2.png",
-        719 * 6,
-        0
-      ),
-      new BackgroundObject("img/5_background/layers/air.png", 719 * 7, 0),
-      new BackgroundObject(
-        "img/5_background/layers/3_third_layer/1.png",
-        719 * 7,
-        0
-      ),
-      new BackgroundObject(
-        "img/5_background/layers/2_second_layer/1.png",
-        719 * 7,
-        0
-      ),
-      new BackgroundObject(
-        "img/5_background/layers/1_first_layer/1.png",
-        719 * 7,
-        0
-      ),
-      new BackgroundObject("img/5_background/layers/air.png", 719 * 8, 0),
-      new BackgroundObject(
-        "img/5_background/layers/3_third_layer/2.png",
-        719 * 8,
-        0
-      ),
-      new BackgroundObject(
-        "img/5_background/layers/2_second_layer/2.png",
-        719 * 8,
-        0
-      ),
-      new BackgroundObject(
-        "img/5_background/layers/1_first_layer/2.png",
-        719 * 8,
-        0
-      ),
-    ],
-    [
-      new SalsaBottle(),
-      new SalsaBottle(),
-      new SalsaBottle(),
-      new SalsaBottle(),
-      new SalsaBottle(),
-      new SalsaBottle(),
-      new SalsaBottle(),
-      new SalsaBottle(),
-      new SalsaBottle(),
-    ],
-    [new Coin(), new Coin(), new Coin(), new Coin(), new Coin()]
-  );
+/**
+ * Handles keydown events and updates the keyboard state.
+ * @param {KeyboardEvent} event - The keydown event.
+ */
+function handleKeyDown(event) {
+  switch (event.keyCode) {
+    case 40: // Down arrow
+      keyboard.DOWN = true;
+      break;
+    case 39: // Right arrow
+      keyboard.RIGHT = true;
+      break;
+    case 38: // Up arrow
+      keyboard.UP = true;
+      break;
+    case 37: // Left arrow
+      keyboard.LEFT = true;
+      break;
+    case 32: // Space
+      keyboard.SPACE = true;
+      break;
+    case 68: // D key
+      keyboard.D = true;
+      break;
+  }
 }
 
-function resetGame() {
-  // Clear the canvas
-  canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
-
-  // Clear existing world
-  if (world) {
-    world.clear();
+/**
+ * Handles keyup events and updates the keyboard state.
+ * @param {KeyboardEvent} event - The keyup event.
+ */
+function handleKeyUp(event) {
+  switch (event.keyCode) {
+    case 40:
+      keyboard.DOWN = false;
+      break;
+    case 39:
+      keyboard.RIGHT = false;
+      break;
+    case 38:
+      keyboard.UP = false;
+      break;
+    case 37:
+      keyboard.LEFT = false;
+      break;
+    case 32:
+      keyboard.SPACE = false;
+      break;
+    case 68:
+      keyboard.D = false;
+      break;
   }
+}
 
-  // Recreate the level
-  level1 = createNewLevel();
+/**
+ * Sets up event listeners for touch controls and other UI elements.
+ */
+function setupEventListeners() {
+  setupTouchControls();
+  document
+    .getElementById("restart-button")
+    .addEventListener("click", resetGame);
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      world.isPaused ? resume() : pause();
+    }
+  });
+}
 
-  // Ensure spacing
+/**
+ * Sets up touch controls for mobile devices.
+ */
+function setupTouchControls() {
+  const controls = [
+    { id: "mobile-arrow-left", key: "LEFT" },
+    { id: "mobile-arrow-right", key: "RIGHT" },
+    { id: "mobile-arrow-up", key: "UP" },
+    { id: "mobile-salsa", key: "D" },
+  ];
+
+  controls.forEach(({ id, key }) => {
+    document.getElementById(id).addEventListener("touchstart", () => {
+      keyboard[key] = true;
+    });
+    document.getElementById(id).addEventListener("touchend", () => {
+      keyboard[key] = false;
+    });
+  });
+}
+
+/**
+ * Resets the game to its initial state.
+ */
+function resetGame() {
+  world.clearCanvas();
+  if (world) world.clear();
   level1.ensureChickenSpacing();
   level1.ensureCoinSpacing();
   level1.ensureSalsaBottleSpacing();
-
-  // Reinitialize the world and character
   world = new World(canvas, keyboard, level1);
-
-  // Reset additional elements like score and gameover screen
   document.getElementById("score").innerText = "";
   document.getElementById("gameoverscreen").style.display = "none";
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  // For touch devices
-  document
-    .getElementById("mobile-arrow-left")
-    .addEventListener("touchstart", () => {
-      keyboard.LEFT = true;
-    });
-  document
-    .getElementById("mobile-arrow-left")
-    .addEventListener("touchend", () => {
-      keyboard.LEFT = false;
-    });
-
-  document
-    .getElementById("mobile-arrow-right")
-    .addEventListener("touchstart", () => {
-      keyboard.RIGHT = true;
-    });
-  document
-    .getElementById("mobile-arrow-right")
-    .addEventListener("touchend", () => {
-      keyboard.RIGHT = false;
-    });
-
-  document
-    .getElementById("mobile-arrow-up")
-    .addEventListener("touchstart", () => {
-      keyboard.UP = true;
-    });
-  document
-    .getElementById("mobile-arrow-up")
-    .addEventListener("touchend", () => {
-      keyboard.UP = false;
-    });
-
-  document.getElementById("mobile-salsa").addEventListener("touchstart", () => {
-    keyboard.D = true;
-  });
-  document.getElementById("mobile-salsa").addEventListener("touchend", () => {
-    keyboard.D = false;
-  });
-
-  document.getElementById("restart-button").addEventListener("click", () => {
-    resetGame();
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      if (world.isPaused) {
-        world.resume();
-      } else {
-        world.pause();
-      }
-    }
-  });
-});
-
 /**
  * Initializes the game.
- * @constructor
  */
 function init() {
   canvas = document.getElementById("canvas");
-  level1 = createNewLevel();
   world = new World(canvas, keyboard, level1);
 }
 
-window.onload = () => {
-  init();
-};
+window.onload = init;
 
 /**
- * Returns a random number in between the min and max.
- * @constructor
- * @param {string} min - The smallest number.
- * @param {string} max - The biggest number.
+ * Returns a random integer between min and max (inclusive).
+ * @param {number} min - The minimum value.
+ * @param {number} max - The maximum value.
+ * @returns {number} A random integer.
  */
 function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 /**
- * Checks if the Character is dead.
- * @constructor
+ * Checks if the character is dead and handles game over.
  */
 function checkCharacterDead() {
-  if (!characterdead) {
-    if (world.character && world.character.isDead()) {
-      pepe_dead_sound.play();
-      handleGameOver();
-      characterdead = true;
-    }
+  if (!characterDead && world.character && world.character.isDead()) {
+    pepe_dead_sound.play();
+    handleGameOver();
+    characterDead = true;
   }
 }
 
+/**
+ * Handles the game win scenario.
+ */
 function handleGameWin() {
   const gameOverScreen = document.getElementById("gameoverscreen");
   const score = document.getElementById("score");
@@ -378,14 +167,11 @@ function handleGameWin() {
 }
 
 /**
- * Splices all enemies and adds the randomized Game Over overlay.
- * @constructor
+ * Handles the game over scenario.
  */
 function handleGameOver() {
   const gameOverScreen = document.getElementById("gameoverscreen");
-  world.level.enemies.splice(0, world.level.enemies.length);
-  world.level.salsabottles.splice(0, world.level.salsabottles.length);
-  world.level.coins.splice(0, world.level.coins.length);
+  clearLevelEntities();
   gameOverScreen.src = `img/9_intro_outro_screens/game_over/${getRandomInt(
     1,
     4
@@ -400,15 +186,35 @@ function handleGameOver() {
   }, 1000);
 }
 
+/**
+ * Clears all entities in the level (enemies, salsa bottles, coins).
+ */
+function clearLevelEntities() {
+  world.level.enemies = [];
+  world.level.salsabottles = [];
+  world.level.coins = [];
+}
+
+/**
+ * Adds a score to the world score.
+ * @param {number} score - The score to add.
+ */
 function addScore(score) {
   world.score += score;
 }
 
+/**
+ * Enters fullscreen mode for the game canvas.
+ */
 function fullscreen() {
-  let fullscreen = document.getElementById("canvas-fullscreen");
-  enterFullscreen(fullscreen);
+  const fullscreenElement = document.getElementById("canvas-fullscreen");
+  enterFullscreen(fullscreenElement);
 }
 
+/**
+ * Requests fullscreen mode for the given element.
+ * @param {HTMLElement} element - The element to display in fullscreen.
+ */
 function enterFullscreen(element) {
   if (element.requestFullscreen) {
     element.requestFullscreen();
@@ -419,6 +225,9 @@ function enterFullscreen(element) {
   }
 }
 
+/**
+ * Exits fullscreen mode.
+ */
 function exitFullscreen() {
   if (document.exitFullscreen) {
     document.exitFullscreen();
@@ -427,14 +236,29 @@ function exitFullscreen() {
   }
 }
 
+/**
+ * Pauses the game and updates the UI.
+ */
 function pause() {
   world.pauseGame();
-  document.getElementById("pause-img").src = "img/other_imgs/resume.png";
-  document.getElementById("pause-button").onclick = resume;
+  updatePauseButton("img/other_imgs/resume.png", resume);
 }
 
+/**
+ * Resumes the game and updates the UI.
+ */
 function resume() {
   world.resumeGame();
-  document.getElementById("pause-img").src = "img/other_imgs/pause.png";
-  document.getElementById("pause-button").onclick = pause;
+  updatePauseButton("img/other_imgs/pause.png", pause);
+}
+
+/**
+ * Updates the pause button's image and click handler.
+ * @param {string} imgSrc - The new image source for the button.
+ * @param {Function} onClick - The new click handler for the button.
+ */
+function updatePauseButton(imgSrc, onClick) {
+  const pauseButton = document.getElementById("pause-img");
+  pauseButton.src = imgSrc;
+  document.getElementById("pause-button").onclick = onClick;
 }

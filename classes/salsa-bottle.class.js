@@ -28,8 +28,10 @@ class SalsaBottle extends MovableObject {
    * @constructor
    */
   animate() {
-    setInterval(() => {
-      this.playAnimation(this.IMAGES_BOTTLE);
-    }, 1000 / 3);
+    this.setStoppableInterval(
+      this.playAnimation(this.IMAGES_BOTTLE),
+      "SalsaBottleAnimateInterval",
+      1000 / 24
+    );
   }
 }

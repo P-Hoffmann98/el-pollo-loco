@@ -167,10 +167,10 @@ class Character extends MovableObject {
 
     if (this.isDead()) {
       this.handleDeath();
-    } else if (this.isHurt()) {
-      this.playAnimation(this.IMAGES_HURT);
     } else if (this.isAboveGround()) {
       this.playAnimation(this.IMAGES_JUMPING);
+    } else if (this.isHurt()) {
+      this.playAnimation(this.IMAGES_HURT);
     } else if (currentTime - this.lastMovement > 5000) {
       this.playAnimation(this.IMAGES_LONG_IDLE);
       pepe_snoring_sound.play();

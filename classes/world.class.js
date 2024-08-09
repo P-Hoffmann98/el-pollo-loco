@@ -103,7 +103,8 @@ class World {
     if (!this.isPaused) {
       console.log("Game paused");
       this.isPaused = true;
-      this.stopAllIntervals();
+      this.pauseAllIntervals();
+      muteAllSounds();
     }
   }
 
@@ -116,6 +117,7 @@ class World {
       this.isPaused = false;
       this.resumeAllIntervals();
       this.draw(); // Restart the drawing loop
+      unmuteAllSounds();
     }
   }
 
