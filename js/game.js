@@ -5,6 +5,8 @@ let keyboard = new Keyboard();
 let endbossDead = false;
 let characterDead = false;
 
+let gameStarted = false;
+
 const IMAGES_GAME_OVER = [
   "img/9_intro_outro_screens/game_over/1.png",
   "img/9_intro_outro_screens/game_over/2.png",
@@ -78,12 +80,70 @@ function setupEventListeners() {
   setupTouchControls();
   document
     .getElementById("restart-button")
-    .addEventListener("click", resetGame);
+    .addEventListener("click", startGame);
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       world.isPaused ? resume() : pause();
     }
   });
+}
+
+/**
+ * Initializes the game.
+ */
+function init() {
+  canvas = document.getElementById("canvas");
+  world = new World(canvas, keyboard, level1);
+}
+
+function startGame() {
+  if (world) {
+    world.clearCanvas();
+    console.log(world);
+    world = null;
+    console.log(world);
+  }
+  // Clear the canvas and hide the start button
+  let canvas = document.getElementById("canvas");
+  let ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  document.getElementById("startButton").style.cursor = "not-allowed";
+  document.getElementById("startButton").disabled = true;
+  // Hide the game over screen
+  document.getElementById("gameoverscreen").style.display = "none";
+  // Initialize the game
+  init();
+  unMuteAllSounds();
+  gameStarted = true;
+}
+
+/**
+ * Pauses the game and updates the UI.
+ */
+function pause() {
+  if (gameStarted) {
+    world.pauseGame();
+    updatePauseButton("img/other_imgs/resume.png", resume);
+  }
+}
+
+/**
+ * Resumes the game and updates the UI.
+ */
+function resume() {
+  world.resumeGame();
+  updatePauseButton("img/other_imgs/pause.png", pause);
+}
+
+/**
+ * Updates the pause button's image and click handler.
+ * @param {string} imgSrc - The new image source for the button.
+ * @param {Function} onClick - The new click handler for the button.
+ */
+function updatePauseButton(imgSrc, onClick) {
+  const pauseButton = document.getElementById("pause-img");
+  pauseButton.src = imgSrc;
+  document.getElementById("pause-button").onclick = onClick;
 }
 
 /**
@@ -106,30 +166,6 @@ function setupTouchControls() {
     });
   });
 }
-
-/**
- * Resets the game to its initial state.
- */
-function resetGame() {
-  world.clearCanvas();
-  if (world) world.clear();
-  level1.ensureChickenSpacing();
-  level1.ensureCoinSpacing();
-  level1.ensureSalsaBottleSpacing();
-  world = new World(canvas, keyboard, level1);
-  document.getElementById("score").innerText = "";
-  document.getElementById("gameoverscreen").style.display = "none";
-}
-
-/**
- * Initializes the game.
- */
-function init() {
-  canvas = document.getElementById("canvas");
-  world = new World(canvas, keyboard, level1);
-}
-
-window.onload = init;
 
 /**
  * Returns a random integer between min and max (inclusive).
@@ -163,7 +199,7 @@ function handleGameWin() {
   score.innerHTML = `${world.score}`;
   muteAllSounds();
   win_sound.play();
-  world.stopAllIntervals();
+  world.pauseAllIntervals();
 }
 
 /**
@@ -171,7 +207,6 @@ function handleGameWin() {
  */
 function handleGameOver() {
   const gameOverScreen = document.getElementById("gameoverscreen");
-  clearLevelEntities();
   gameOverScreen.src = `img/9_intro_outro_screens/game_over/${getRandomInt(
     1,
     4
@@ -180,19 +215,10 @@ function handleGameOver() {
   fail_sound.play();
   gameOverScreen.style.display = "block";
   setTimeout(() => {
-    world.stopAllIntervals();
+    world.pauseAllIntervals();
     document.getElementById("startButton").style.cursor = "pointer";
     document.getElementById("startButton").disabled = false;
-  }, 1000);
-}
-
-/**
- * Clears all entities in the level (enemies, salsa bottles, coins).
- */
-function clearLevelEntities() {
-  world.level.enemies = [];
-  world.level.salsabottles = [];
-  world.level.coins = [];
+  }, 3000);
 }
 
 /**
@@ -236,29 +262,13 @@ function exitFullscreen() {
   }
 }
 
-/**
- * Pauses the game and updates the UI.
- */
-function pause() {
-  world.pauseGame();
-  updatePauseButton("img/other_imgs/resume.png", resume);
-}
+function showStartScreen() {
+  let canvas = document.getElementById("canvas");
+  let ctx = canvas.getContext("2d");
+  let img = new Image();
+  img.src = "img/9_intro_outro_screens/start/startscreen_1.png"; // Replace with your image path
 
-/**
- * Resumes the game and updates the UI.
- */
-function resume() {
-  world.resumeGame();
-  updatePauseButton("img/other_imgs/pause.png", pause);
-}
-
-/**
- * Updates the pause button's image and click handler.
- * @param {string} imgSrc - The new image source for the button.
- * @param {Function} onClick - The new click handler for the button.
- */
-function updatePauseButton(imgSrc, onClick) {
-  const pauseButton = document.getElementById("pause-img");
-  pauseButton.src = imgSrc;
-  document.getElementById("pause-button").onclick = onClick;
+  img.onload = () => {
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  };
 }

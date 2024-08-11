@@ -185,9 +185,10 @@ class Character extends MovableObject {
    * Handle death animation and actions.
    */
   handleDeath() {
-    if (this.deathHandled < 7) {
+    if (this.deathHandled < 8) {
       this.playAnimation(this.IMAGES_DEAD);
       this.deathHandled++;
+      this.y += 35;
     }
   }
 

@@ -6,7 +6,7 @@ class Endboss extends MovableObject {
 
   health = 500;
   dmg = 100;
-  speed = 1;
+  speed = 1.5;
 
   offset = {
     top: 0,
@@ -105,24 +105,23 @@ class Endboss extends MovableObject {
     } else if (this.isHurt()) {
       this.playAnimation(this.IMAGES_HURT);
     } else {
-      // this.handleEndbossActions();
-      this.playAnimation(this.IMAGES_WALKING);
-      this.moveLeft();
+      if (world) {
+        if (world.character.x > this.x - 300) {
+          this.playAnimation(this.IMAGES_ATTACK);
+          this.moveLeft();
+        } else if (world.character.x > this.x - 100) {
+          this.playAnimation(this.IMAGES_ALERT);
+          this.moveLeft();
+        } else {
+          this.playAnimation(this.IMAGES_WALKING);
+          this.moveLeft();
+        }
+      } else {
+        this.playAnimation(this.IMAGES_WALKING);
+        this.moveLeft();
+      }
     }
   }
-
-  /**
-   * Handles the Endboss's actions, playing ALERT or ATTACK animations when the character is in range.
-   */
-  // handleEndbossActions() {
-  //   const distanceToCharacter = this.x - this.world.character.x;
-
-  //   if (distanceToCharacter < 500 && distanceToCharacter > 200) {
-  //     this.playAnimation(this.IMAGES_ALERT);
-  //   } else if (distanceToCharacter <= 200) {
-  //     this.playAnimation(this.IMAGES_ATTACK);
-  //   }
-  // }
 
   /**
    * Handles the death animation and actions for the Endboss.

@@ -82,7 +82,7 @@ function muteAllSounds() {
 }
 
 // Function to unmute all sounds
-function unmuteAllSounds() {
+function unMuteAllSounds() {
   theme_sound.volume = 0.1;
   clucking_sound.volume = 0.05;
   win_sound.volume = 0.5;

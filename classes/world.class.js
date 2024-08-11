@@ -117,7 +117,7 @@ class World {
       this.isPaused = false;
       this.resumeAllIntervals();
       this.draw(); // Restart the drawing loop
-      unmuteAllSounds();
+      unMuteAllSounds();
     }
   }
 
@@ -163,11 +163,8 @@ class World {
     });
   }
 
-  /**
-   * Stops all intervals saved in the intervals array.
-   */
-  stopAllIntervals() {
-    this.intervals.forEach((interval) => clearInterval(interval.id));
+  clearAllIntervals() {
+    for (let i = 1; i < 9999; i++) window.clearInterval(i);
   }
 
   /**
@@ -186,10 +183,12 @@ class World {
    */
   resumeAllIntervals() {
     this.intervals.forEach((interval) => {
-      setTimeout(() => {
+      const remainingTime = interval.remaining;
+      interval.id = setTimeout(() => {
+        interval.callback();
         interval.id = setInterval(interval.callback, interval.time);
         interval.startTime = Date.now();
-      }, interval.remaining);
+      }, remainingTime);
     });
   }
 
@@ -453,20 +452,5 @@ class World {
       "playCluckingSoundInterval",
       10000
     );
-  }
-
-  /**
-   * Clears the game state, resetting all variables and entities.
-   */
-  clear() {
-    this.stopAllIntervals();
-    this.throwableObjects = [];
-    this.intervals = [];
-    this.level.enemies = [];
-    this.level.salsabottles = [];
-    this.level.coins = [];
-    this.character = new Character(this);
-    this.statusBar.forEach((bar) => bar.setPercentage(0));
-    this.clearCanvas();
   }
 }
