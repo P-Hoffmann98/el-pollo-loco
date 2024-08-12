@@ -14,7 +14,7 @@ class Babychicken extends MovableObject {
     top: 0,
     bottom: 0,
     left: 80,
-    right: 80,
+    right: 0,
   };
 
   IMAGES_WALKING = [

@@ -164,7 +164,8 @@ class World {
   }
 
   clearAllIntervals() {
-    for (let i = 1; i < 9999; i++) window.clearInterval(i);
+    this.intervals.forEach((interval) => clearInterval(interval.id));
+    this.intervals = []; // Clear the intervals array after stopping them
   }
 
   /**

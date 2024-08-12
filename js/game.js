@@ -78,9 +78,6 @@ function handleKeyUp(event) {
  */
 function setupEventListeners() {
   setupTouchControls();
-  document
-    .getElementById("restart-button")
-    .addEventListener("click", startGame);
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       world.isPaused ? resume() : pause();
@@ -97,24 +94,34 @@ function init() {
 }
 
 function startGame() {
-  if (world) {
-    world.clearCanvas();
-    console.log(world);
-    world = null;
-    console.log(world);
-  }
-  // Clear the canvas and hide the start button
+  deleteWorld();
+
   let canvas = document.getElementById("canvas");
   let ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   document.getElementById("startButton").style.cursor = "not-allowed";
   document.getElementById("startButton").disabled = true;
-  // Hide the game over screen
+
   document.getElementById("gameoverscreen").style.display = "none";
-  // Initialize the game
-  init();
+
+  characterDead = false;
+  endbossDead = false;
+  gameStarted = false;
+
+  document.getElementById("score").innerHTML = ``;
   unMuteAllSounds();
+
+  init();
   gameStarted = true;
+}
+
+function deleteWorld() {
+  if (world) {
+    world.clearAllIntervals(); // Clear all active intervals
+    world.clearCanvas(); // Clear the canvas
+    world = null; // Remove the world instance
+    console.log("World deleted.");
+  }
 }
 
 /**
@@ -200,6 +207,7 @@ function handleGameWin() {
   muteAllSounds();
   win_sound.play();
   world.pauseAllIntervals();
+  reactivateStartButton();
 }
 
 /**
@@ -214,8 +222,11 @@ function handleGameOver() {
   muteAllSounds();
   fail_sound.play();
   gameOverScreen.style.display = "block";
+  reactivateStartButton();
+}
+
+function reactivateStartButton() {
   setTimeout(() => {
-    world.pauseAllIntervals();
     document.getElementById("startButton").style.cursor = "pointer";
     document.getElementById("startButton").disabled = false;
   }, 3000);
