@@ -247,7 +247,7 @@ button {
 }
 
 #rotate {
-  height: 100px;
+  height: 200px;
   display: none;
 }
 
@@ -279,6 +279,15 @@ button {
   }
   #rotate {
     display: block;
+  }
+  .buttons {
+    display: none;
+  }
+  .how-to-play {
+    display: none;
+  }
+  .container {
+    gap: 25vh;
   }
 }
 
@@ -312,5 +321,14 @@ button {
   }
   #rotate {
     display: none;
+  }
+  #fullscreen {
+    display: none;
+  }
+  .fullscreen-pause {
+    transform: translateY(-99vh);
+  }
+  #startButton {
+    transform: translatey(-160px);
   }
 }

@@ -90,6 +90,7 @@ function setupEventListeners() {
  */
 function init() {
   canvas = document.getElementById("canvas");
+  initLevel();
   world = new World(canvas, keyboard, level1);
 }
 
@@ -117,8 +118,11 @@ function startGame() {
 
 function deleteWorld() {
   if (world) {
+    world.isPaused = true;
     world.clearAllIntervals(); // Clear all active intervals
     world.clearCanvas(); // Clear the canvas
+    world.character = [];
+    world.level = [];
     world = null; // Remove the world instance
     console.log("World deleted.");
   }
