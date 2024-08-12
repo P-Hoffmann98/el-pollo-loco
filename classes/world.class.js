@@ -101,7 +101,6 @@ class World {
    */
   pauseGame() {
     if (!this.isPaused) {
-      console.log("Game paused");
       this.isPaused = true;
       this.pauseAllIntervals();
       muteAllSounds();
@@ -113,7 +112,6 @@ class World {
    */
   resumeGame() {
     if (this.isPaused) {
-      console.log("Game resumed");
       this.isPaused = false;
       this.resumeAllIntervals();
       this.draw(); // Restart the drawing loop
@@ -163,9 +161,12 @@ class World {
     });
   }
 
+  /**
+   * Clears all intervals stored in the interval array which gets cleared also.
+   */
   clearAllIntervals() {
     this.intervals.forEach((interval) => clearInterval(interval.id));
-    this.intervals = []; // Clear the intervals array after stopping them
+    this.intervals = [];
   }
 
   /**

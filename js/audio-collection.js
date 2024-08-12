@@ -69,7 +69,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Function to mute all sounds
+/**
+ * Mutes all sounds
+ */
 function muteAllSounds() {
   theme_sound.volume = 0;
   walking_sound.volume = 0;
@@ -81,7 +83,9 @@ function muteAllSounds() {
   jump_sound.volume = 0;
 }
 
-// Function to unmute all sounds
+/**
+ * Unmutes all sounds
+ */
 function unMuteAllSounds() {
   theme_sound.volume = 0.1;
   clucking_sound.volume = 0.05;

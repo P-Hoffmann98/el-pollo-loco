@@ -14,9 +14,9 @@ const IMAGES_GAME_OVER = [
   "img/9_intro_outro_screens/game_over/4.png",
 ];
 
+// Event listeners for keyboard inputs
 window.addEventListener("keydown", handleKeyDown);
 window.addEventListener("keyup", handleKeyUp);
-
 document.addEventListener("DOMContentLoaded", setupEventListeners);
 
 /**
@@ -86,7 +86,7 @@ function setupEventListeners() {
 }
 
 /**
- * Initializes the game.
+ * Initializes the game by setting up the canvas and world.
  */
 function init() {
   canvas = document.getElementById("canvas");
@@ -94,6 +94,9 @@ function init() {
   world = new World(canvas, keyboard, level1);
 }
 
+/**
+ * Starts the game by initializing necessary components and resetting states.
+ */
 function startGame() {
   deleteWorld();
 
@@ -116,6 +119,9 @@ function startGame() {
   gameStarted = true;
 }
 
+/**
+ * Deletes the current world instance, clearing intervals and canvas.
+ */
 function deleteWorld() {
   if (world) {
     world.isPaused = true;
@@ -124,7 +130,6 @@ function deleteWorld() {
     world.character = [];
     world.level = [];
     world = null; // Remove the world instance
-    console.log("World deleted.");
   }
 }
 
@@ -200,7 +205,7 @@ function checkCharacterDead() {
 }
 
 /**
- * Handles the game win scenario.
+ * Handles the game win scenario by displaying the win screen and updating scores.
  */
 function handleGameWin() {
   const gameOverScreen = document.getElementById("gameoverscreen");
@@ -215,7 +220,7 @@ function handleGameWin() {
 }
 
 /**
- * Handles the game over scenario.
+ * Handles the game over scenario by displaying a random game over screen.
  */
 function handleGameOver() {
   const gameOverScreen = document.getElementById("gameoverscreen");
@@ -229,6 +234,9 @@ function handleGameOver() {
   reactivateStartButton();
 }
 
+/**
+ * Reactivates the start button after a delay, allowing the player to restart the game.
+ */
 function reactivateStartButton() {
   setTimeout(() => {
     document.getElementById("startButton").style.cursor = "pointer";
@@ -277,6 +285,9 @@ function exitFullscreen() {
   }
 }
 
+/**
+ * Displays the start screen image on the canvas.
+ */
 function showStartScreen() {
   let canvas = document.getElementById("canvas");
   let ctx = canvas.getContext("2d");

@@ -26,7 +26,6 @@ class Statusbar extends DrawableObject {
 
   /**
    * Resolves Image Path.
-   * @constructor
    */
   resolveImagePath() {
     let index = Math.floor(this.percentage / 20);

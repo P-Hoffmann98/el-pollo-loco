@@ -23,7 +23,6 @@ class Coin extends MovableObject {
 
   /**
    * Animates loaded images.
-   * @constructor
    */
   animate() {
     this.setStoppableInterval(

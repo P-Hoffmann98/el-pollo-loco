@@ -36,7 +36,6 @@ class Babychicken extends MovableObject {
 
   /**
    * Animates loaded images.
-   * @constructor
    */
   animate() {
     this.setStoppableInterval(
