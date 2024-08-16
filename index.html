@@ -31,6 +31,9 @@
       <script src="./js/game.js"></script>
     </head>
     <body onload="showStartScreen()">
+      <button id="impressumButton" onclick="impressumButtonClick()">
+        Impressum
+      </button>
       <div class="container">
         <h1>¡el pollo loco!</h1>
         <img
@@ -75,41 +78,43 @@
           <p id="score"></p>
         </div>
         <button id="startButton" onclick="startGame()">¡Vamos!</button>
-        <div class="how-to-play">
-          <h2>How to Play</h2>
-          <div class="controls">
-            <div class="controls-move">
-              <h3>MOVE</h3>
-              <div class="arrows-container">
-                <img
-                  id="move-up"
-                  class="controls-arrows"
-                  src="img/other_imgs/arrow.png"
-                />
-                <div class="horizontal-arrows">
+        <div class="htp-and-buttons">
+          <div class="how-to-play">
+            <h2>How to Play</h2>
+            <div class="controls">
+              <div class="controls-move">
+                <h3>MOVE</h3>
+                <div class="arrows-container">
                   <img
-                    id="move-left"
+                    id="move-up"
                     class="controls-arrows"
                     src="img/other_imgs/arrow.png"
                   />
-                  <img
-                    id="move-right"
-                    class="controls-arrows"
-                    src="img/other_imgs/arrow.png"
-                  />
+                  <div class="horizontal-arrows">
+                    <img
+                      id="move-left"
+                      class="controls-arrows"
+                      src="img/other_imgs/arrow.png"
+                    />
+                    <img
+                      id="move-right"
+                      class="controls-arrows"
+                      src="img/other_imgs/arrow.png"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="controls-throw">
-              <h3>THROW SPICY SALSA</h3>
-              <img id="D_Key" src="img/other_imgs/D_Key.png" />
+              <div class="controls-throw">
+                <h3>THROW SPICY SALSA</h3>
+                <img id="D_Key" src="img/other_imgs/D_Key.png" />
+              </div>
             </div>
           </div>
-        </div>
-        <div class="buttons">
-          <button id="restart-button" onclick="startGame()">Restart</button>
-          <button id="music_toggle">Turn Music Off</button>
-          <button id="sound_toggle">Turn Sound Off</button>
+          <div class="buttons">
+            <button id="restart-button" onclick="startGame()">Restart</button>
+            <button id="music_toggle">Turn Music Off</button>
+            <button id="sound_toggle">Turn Sound Off</button>
+          </div>
         </div>
       </div>
     </body>

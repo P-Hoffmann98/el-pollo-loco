@@ -74,6 +74,17 @@ function handleKeyUp(event) {
 }
 
 /**
+ * Prevents the context menu to pop up in mobile mode
+ */
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".control-btn").forEach(function (button) {
+    button.addEventListener("contextmenu", function (e) {
+      e.preventDefault(); // Prevent the context menu from appearing
+    });
+  });
+});
+
+/**
  * Sets up event listeners for touch controls and other UI elements.
  */
 function setupEventListeners() {
@@ -107,6 +118,8 @@ function startGame() {
   document.getElementById("startButton").disabled = true;
 
   document.getElementById("gameoverscreen").style.display = "none";
+  document.getElementById("pause-button").style.display = "block";
+  document.getElementById("fullscreen").style.display = "block";
 
   characterDead = false;
   endbossDead = false;
@@ -297,4 +310,27 @@ function showStartScreen() {
   img.onload = () => {
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
   };
+}
+
+function updateStartButtonVisibility() {
+  const startButton = document.getElementById("startButton");
+  const isLandscape = window.matchMedia("(orientation: landscape)").matches;
+  const isMaxHeightLessThan480 = window.matchMedia(
+    "(max-height: 480px)"
+  ).matches;
+  const isMaxWidthLessThan950 = window.matchMedia("(max-width: 950px)").matches;
+
+  if (
+    gameStarted &&
+    (isMaxHeightLessThan480 || (isMaxWidthLessThan950 && isLandscape))
+  ) {
+    startButton.style.display = "none";
+  } else {
+    startButton.style.display = "block";
+  }
+}
+
+function impressumButtonClick() {
+  window.location.href = "impressum.html"; // Navigate to the impressum.html page
+  world.clearAllIntervals(); // Clear all intervals
 }

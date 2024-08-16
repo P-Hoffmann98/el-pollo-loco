@@ -94,6 +94,7 @@ class World {
     this.checkNewThrowedObjects();
     this.checkThrowedObjectsCollision();
     checkCharacterDead();
+    updateStartButtonVisibility();
   }
 
   /**

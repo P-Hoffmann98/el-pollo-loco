@@ -1,5 +1,5 @@
 * {
-  font-size: clamp(1rem, 2.5vw, 2rem);
+  font-size: clamp(0.3rem, 1vw + 0.5vh, 1.2rem);
   margin: 0;
   box-sizing: border-box;
   text-decoration: none;
@@ -22,6 +22,11 @@ body {
   background-position: center;
   font-family: "zabars", Arial, Helvetica, sans-serif;
   overflow: hidden;
+}
+
+body.impressum-page {
+  overflow: visible; /* Override for the Impressum page */
+  background-repeat: repeat;
 }
 
 .container {
@@ -72,6 +77,7 @@ canvas {
 }
 
 .fullscreen-pause {
+  display: none;
   position: absolute;
   right: 5px;
   background: none;
@@ -79,15 +85,10 @@ canvas {
   padding: 0;
   cursor: pointer;
   z-index: 4;
-  transform: translateY(-210px);
 }
 
 .fullscreen-pause img {
   height: 48px;
-}
-
-#fullscreen {
-  transform: translate(-75px, -210px);
 }
 
 .gameoverscreen {
@@ -128,7 +129,7 @@ button {
 }
 
 #startButton {
-  margin-bottom: 50px;
+  margin-bottom: 10px;
 }
 
 .how-to-play {
@@ -166,8 +167,8 @@ button {
 }
 
 .controls-arrows {
-  height: 30px;
-  width: 30px;
+  height: clamp(0.5rem, 1.5vw + 1vh, 1.5rem);
+  width: clamp(0.5rem, 1.5vw + 1vh, 1.5rem);
 }
 
 .controls-arrows + .controls-arrows {
@@ -190,8 +191,8 @@ button {
 #D_Key {
   transform: rotate(38deg) translate(20px, 20px);
   margin-top: -30px;
-  height: 100px;
-  width: 100px;
+  height: clamp(1.5rem, 4.5vw + 3vh, 4.5rem);
+  width: clamp(1.5rem, 4.5vw + 3vh, 4.5rem);
 }
 
 .mobile-controls {
@@ -251,6 +252,48 @@ button {
   display: none;
 }
 
+.htp-and-buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+#impressumButton {
+  position: absolute;
+  top: 10vh;
+  left: 10vw;
+}
+
+.impressum {
+  margin: 100px;
+  display: flex;
+  overflow: auto;
+  flex-direction: column;
+}
+
+.impressum p {
+  margin-top: 15vh;
+  font-size: clamp(1rem, 3vw + 1.5vh, 3rem);
+}
+
+.back-link {
+  margin-top: 5vh;
+  margin-left: 5vw;
+  position: absolute;
+  cursor: pointer;
+  width: 10%;
+}
+
+#fullscreen {
+  display: none;
+  top: 0.75%;
+  right: 11%;
+}
+#pause-button {
+  display: none;
+  top: 0.75%;
+  right: 0.75%;
+}
+
 @media only screen and (max-height: 480px) {
   canvas {
     height: 100vh;
@@ -265,6 +308,9 @@ button {
 
   h3 {
     font-size: 24px;
+  }
+  #impressumButton {
+    display: none;
   }
 }
 
@@ -288,6 +334,12 @@ button {
   }
   .container {
     gap: 25vh;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  #impressumButton {
+    left: 1vw;
   }
 }
 
@@ -322,13 +374,46 @@ button {
   #rotate {
     display: none;
   }
-  #fullscreen {
-    display: none;
-  }
-  .fullscreen-pause {
-    transform: translateY(-99vh);
-  }
+
   #startButton {
     transform: translatey(-160px);
+  }
+}
+@media only screen and (max-height: 480px) {
+  #startButton {
+    margin: 0;
+    transform: translatey(-60px);
+  }
+}
+
+@media only screen and (max-height: 600px) {
+  .buttons {
+    display: none;
+  }
+  .how-to-play {
+    display: none;
+  }
+}
+
+@media only screen and (max-height: 900px) {
+  * {
+    font-size: 18px;
+  }
+  h1 {
+    display: none;
+  }
+  .how-to-play {
+    margin-top: -50px;
+  }
+}
+
+@media only screen and (max-height: 1000px) {
+  .htp-and-buttons {
+    flex-direction: row;
+  }
+
+  .buttons {
+    width: normal;
+    height: 100px;
   }
 }
