@@ -26,7 +26,8 @@ body {
 
 body.impressum-page {
   overflow: visible; /* Override for the Impressum page */
-  background-repeat: repeat;
+  background-image: none;
+  background-color: #fba83ce7;
 }
 
 .container {
@@ -45,20 +46,22 @@ h1 {
   text-align: center;
 }
 
-h2 {
-  font-size: clamp(1.2rem, 2.5vw, 3rem);
+h2,
+h3 {
   letter-spacing: 2px;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-  margin: 10px 0;
   text-align: center;
+}
+
+h2 {
+  font-size: clamp(1.2rem, 2.5vw, 3rem);
+  margin: 10px 0;
 }
 
 h3 {
   font-size: clamp(1rem, 2vw, 2.5rem);
   margin-bottom: 10px;
   letter-spacing: 1px;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-  text-align: center;
 }
 
 .canvas-and-gamescreens {
@@ -77,8 +80,16 @@ canvas {
 }
 
 .fullscreen-pause {
-  display: none;
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 10px;
   position: absolute;
+  top: 0.75%;
+  right: 0.75%;
+}
+
+.fullscreen-pause button {
+  display: none;
   right: 5px;
   background: none;
   border: none;
@@ -103,13 +114,13 @@ canvas {
 
 #score {
   position: absolute;
-  left: 50%; /* Move the left side of the element to the center of the parent */
+  left: 50%;
   top: 32.3%;
   transform: translateX(-50%);
   z-index: 5;
   font-size: 40px;
   color: orange;
-  text-align: center; /* Centers text within the element, useful if it spans multiple lines */
+  text-align: center;
 }
 
 button {
@@ -126,10 +137,6 @@ button {
   gap: 10px;
   justify-content: center;
   width: 100%;
-}
-
-#startButton {
-  margin-bottom: 10px;
 }
 
 .how-to-play {
@@ -167,8 +174,8 @@ button {
 }
 
 .controls-arrows {
-  height: clamp(0.5rem, 1.5vw + 1vh, 1.5rem);
-  width: clamp(0.5rem, 1.5vw + 1vh, 1.5rem);
+  height: 30px;
+  width: 30px;
 }
 
 .controls-arrows + .controls-arrows {
@@ -191,8 +198,8 @@ button {
 #D_Key {
   transform: rotate(38deg) translate(20px, 20px);
   margin-top: -30px;
-  height: clamp(1.5rem, 4.5vw + 3vh, 4.5rem);
-  width: clamp(1.5rem, 4.5vw + 3vh, 4.5rem);
+  height: 100px;
+  width: 100px;
 }
 
 .mobile-controls {
@@ -283,17 +290,14 @@ button {
   width: 10%;
 }
 
-#fullscreen {
-  display: none;
-  top: 0.75%;
-  right: 11%;
-}
-#pause-button {
-  display: none;
-  top: 0.75%;
-  right: 0.75%;
+#startButton {
+  position: absolute;
+  bottom: 5px;
+  left: 45%;
+  z-index: 50;
 }
 
+/* Media Queries */
 @media only screen and (max-height: 480px) {
   canvas {
     height: 100vh;
@@ -314,15 +318,48 @@ button {
   }
 }
 
-/* Media query for larger mobile devices in normal orientation */
+@media only screen and (max-width: 1200px) {
+  #impressumButton {
+    left: 1vw;
+  }
+}
+
+@media (pointer: coarse) and (orientation: landscape) {
+  .mobile-controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  #rotate {
+    display: none;
+  }
+  .how-to-play {
+    display: none;
+  }
+}
+
+@media (pointer: coarse) and (orientation: portrait) {
+  #rotate {
+    display: block;
+  }
+}
+
+@media only screen and (max-height: 1000px) {
+  .htp-and-buttons {
+    flex-direction: row;
+  }
+
+  .buttons {
+    height: 50px;
+  }
+}
+
 @media only screen and (max-width: 950px) {
   .canvas-and-gamescreens {
     display: none;
   }
 
-  #startButton {
-    display: none;
-  }
   #rotate {
     display: block;
   }
@@ -335,62 +372,8 @@ button {
   .container {
     gap: 25vh;
   }
-}
 
-@media only screen and (max-width: 1200px) {
   #impressumButton {
-    left: 1vw;
-  }
-}
-
-/* Media query for larger mobile devices in landscape orientation */
-@media only screen and (max-width: 950px) and (orientation: landscape) {
-  #startButton {
-    transform: translatey(-100px);
-    z-index: 50;
-  }
-
-  .canvas-and-gamescreens {
-    display: block;
-  }
-
-  #startButton {
-    display: block;
-  }
-
-  .buttons {
-    display: none;
-  }
-
-  .mobile-controls {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  canvas {
-    height: 100%;
-    width: 100%;
-  }
-  #rotate {
-    display: none;
-  }
-
-  #startButton {
-    transform: translatey(-160px);
-  }
-}
-@media only screen and (max-height: 480px) {
-  #startButton {
-    margin: 0;
-    transform: translatey(-60px);
-  }
-}
-
-@media only screen and (max-height: 600px) {
-  .buttons {
-    display: none;
-  }
-  .how-to-play {
     display: none;
   }
 }
@@ -402,18 +385,21 @@ button {
   h1 {
     display: none;
   }
+}
+
+@media only screen and (max-height: 600px) {
   .how-to-play {
-    margin-top: -50px;
+    display: none;
   }
 }
 
-@media only screen and (max-height: 1000px) {
-  .htp-and-buttons {
-    flex-direction: row;
-  }
-
+@media only screen and (max-height: 540px) {
   .buttons {
-    width: normal;
-    height: 100px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 10vw;
+    left: 1vw;
+    bottom: 20vh;
   }
 }
